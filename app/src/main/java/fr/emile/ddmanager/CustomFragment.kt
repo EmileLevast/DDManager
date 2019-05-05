@@ -41,7 +41,7 @@ class CustomFragment : Fragment() {
 
             //get the monster at this position
             val monsterClicked=Monster.containerRef[position]!!
-            (context as MainAcvtivity).playerKillMonster(monsterClicked)
+            (context as MainAcvtivity).playerSelectMonster(monsterClicked)
 
         }
     }

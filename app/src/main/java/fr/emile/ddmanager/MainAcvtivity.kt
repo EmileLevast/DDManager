@@ -17,6 +17,11 @@ class MainAcvtivity : AppCompatActivity() {
             Personnage(Personnage.containerRef.getEltWith("Lidda")!!),
             Personnage(Personnage.containerRef.getEltWith("Myalië")!!))
 
+
+    //littel var just because I should have done a MVC
+    var posOrNeg=1//must be 1 or -1 , used to determine if player win or loseXp
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,6 +33,8 @@ class MainAcvtivity : AppCompatActivity() {
                 pvGrid,
                 imagePersonnage,
                 expBar,
+                buttonKillMonster,
+                buttonLoseXpMonster,
                 textViewLevel
         )
 
@@ -51,8 +58,20 @@ class MainAcvtivity : AppCompatActivity() {
         affichage.initPersonnage(joueur)
     }
 
-    fun createCustomFragment()
+    fun playerSelectMonster(monsterClicked:Monster)
     {
+        joueur.levelStat.addXp(monsterClicked.costXp*posOrNeg)
+        updateUi()
+        supportFragmentManager.popBackStack()
+    }
+
+    /**
+    [posOrNeg] is 1 when the user select a monster to win xp and -1 when the user select a monster to lose xp
+     */
+    fun createCustomFragment(posOrNeg:Int)
+    {
+        this.posOrNeg=posOrNeg
+
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
         val frag=CustomFragment()
@@ -61,10 +80,4 @@ class MainAcvtivity : AppCompatActivity() {
         ft.commit()
     }
 
-    fun playerKillMonster(monsterClicked:Monster)
-    {
-        joueur.levelStat.addXp(monsterClicked.costXp)
-        updateUi()
-        supportFragmentManager.popBackStack()
-    }
 }

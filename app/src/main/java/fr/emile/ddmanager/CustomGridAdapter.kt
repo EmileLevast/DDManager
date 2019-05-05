@@ -4,8 +4,6 @@ import android.app.Activity
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.widget.LinearLayout
-import android.support.annotation.Nullable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +32,10 @@ class CustomGridAdapter(private var activity: Activity, private var characterLis
 
         //we create our viewHolder to save our view
         var viewHolder = ViewHolder()
-        //Log.d(TAG,"Image counter: " + position + " ConvertView: " + convertView);
+
+
+        val currentImg = characterList[position]
+
         //if we are at the beginning convertView is null , we have to inflate it
         if (listItem == null) {
             listItem = LayoutInflater.from(context).inflate(R.layout.layout_grid_view, parent, false)
@@ -42,7 +43,9 @@ class CustomGridAdapter(private var activity: Activity, private var characterLis
             //val textLegend = context.findViewById(R.id.textLegend)
 
             widthImg = (WIDTH_SCREEN!! - 2 * marginBetweenPictures * nbrColumnGridView) / nbrColumnGridView
-            val param = RelativeLayout.LayoutParams(widthImg, widthImg)
+            heightImg= (widthImg/calculateRatioWidthHeigth(currentImg.imgId)).toInt()
+
+            val param = RelativeLayout.LayoutParams(widthImg, heightImg)
             param.setMargins(marginBetweenPictures, marginBetweenPictures, marginBetweenPictures, marginBetweenPictures)
             imageView.layoutParams = param
 
@@ -55,13 +58,12 @@ class CustomGridAdapter(private var activity: Activity, private var characterLis
         }
 
         //we get the currently image selected
-        val currentImg = characterList[position]
 
-        if (viewHolder.imageView!!.getDrawable() != null)
-            (viewHolder.imageView!!.getDrawable() as BitmapDrawable).bitmap.recycle()
+        if (viewHolder.imageView!!.drawable != null)
+            (viewHolder.imageView!!.drawable as BitmapDrawable).bitmap.recycle()
 
         //viewHolder.getImageView().setImageResource(currentImg);
-        viewHolder.imageView!!.setImageBitmap(decodeSampledBitmapFromResource(currentImg.imgId, widthImg, widthImg))
+        viewHolder.imageView!!.setImageBitmap(decodeSampledBitmapFromResource(currentImg.imgId, widthImg, heightImg))
         //viewHolder.textXpCost!!.setText(currentImg.xpCost)
 
         return listItem
@@ -72,15 +74,18 @@ class CustomGridAdapter(private var activity: Activity, private var characterLis
         this.characterList.addAll(img)
     }
 
-    // class to save view
-    inner class ViewHolder {
-        var imageView: ImageView? = null
-        //var textXpCost: TextView? = null
-    }
-
     /*companion object {
         private val TAG = "CustomVIew"
 */
+
+        fun calculateRatioWidthHeigth(imgId:Int):Float
+        {
+            val options = BitmapFactory.Options()
+            options.inJustDecodeBounds = true
+            BitmapFactory.decodeResource(context.resources, imgId, options)
+
+            return options.outWidth.toFloat() / options.outHeight.toFloat()
+        }
 
         fun decodeSampledBitmapFromResource(
                                             resId: Int, reqWidth: Int, reqHeight: Int): Bitmap {
@@ -122,5 +127,10 @@ class CustomGridAdapter(private var activity: Activity, private var characterLis
 
             return inSampleSize
         }
-    //}
+
+// class to save view
+    inner class ViewHolder {
+        var imageView: ImageView? = null
+        //var textXpCost: TextView? = null
+    }
 }

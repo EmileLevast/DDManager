@@ -1,5 +1,6 @@
 package fr.emile.ddmanager
 
+import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.widget.*
@@ -28,20 +29,31 @@ class Affichage(
         var pvGrid:GridCustomPoint,
         var imagePersonnage:ImageView,
         var xpBarre:ProgressBar,
+        var buttonKillMonster:ImageButton,
+        var buttonLoseXpMonster:ImageButton,
         var textViewLevel:TextView
 ) {
 
     init {
 
+        initTypeface()
+
         //we prepare the layout
-        setDimensionImagePersonnage()
+        setDimensionImagesPersonnage()
         fillGridWithView(manaGrid,activity,R.drawable.fillpointgridmana,R.color.pointMana)
         fillGridWithView(pvGrid,activity,R.drawable.fillpointgridvie,R.color.red)
 
         //on indique l'effet quand on clique sur l'image
         imagePersonnage.setOnClickListener {
-            //activity.changeToNextPersonnage()
-            activity.createCustomFragment()
+            activity.changeToNextPersonnage()
+        }
+
+        buttonKillMonster.setOnClickListener {
+            activity.createCustomFragment(1)
+        }
+
+        buttonLoseXpMonster.setOnClickListener {
+            activity.createCustomFragment(-1)
         }
 
     }
@@ -100,7 +112,7 @@ class Affichage(
 
     //function for creation of the layout
 
-    private fun setDimensionImagePersonnage()
+    private fun setDimensionImagesPersonnage()
     {
         imagePersonnage.post{
 
@@ -114,7 +126,25 @@ class Affichage(
 
             paramRelativeLayout.marginStart=(WIDTH_SCREEN!!* (1f-RAPPORT_IMAGE_ECRAN_X)/2f).toInt()
             imagePersonnage.layoutParams=paramRelativeLayout
+
+            //we create the buttons for the personnage
+            setDimensionButtonPersonnage(1,0,buttonKillMonster)
+            setDimensionButtonPersonnage(1,1,buttonLoseXpMonster)
         }
+    }
+
+    private fun setDimensionButtonPersonnage(posX:Int,posY:Int,buttonToSet:View)
+    {
+
+        val width= (WIDTH_SCREEN!!* ((1f-RAPPORT_IMAGE_ECRAN_X)/2f)).toInt()
+        val height=width// (HEIGHT_SCREEN!!* RAPPORT_IMAGE_ECRAN_Y).toInt()
+
+        val paramRelativeLayout=RelativeLayout.LayoutParams(width,height)
+        paramRelativeLayout.marginStart=width*posX
+        paramRelativeLayout.topMargin=height*(posY)
+
+        buttonToSet.layoutParams=paramRelativeLayout
+
     }
 
     private fun fillGridWithView(gridTofill:GridCustomPoint, activity: MainAcvtivity,
@@ -165,6 +195,12 @@ class Affichage(
 
             gridTofill.addView(pointGrid)
         }
+    }
+
+    private fun initTypeface()
+    {
+        var typeface=Typeface.createFromAsset(activity.assets,"font/hobbitonbrushhand.ttf")
+        textViewLevel.typeface = typeface
     }
 
 }
