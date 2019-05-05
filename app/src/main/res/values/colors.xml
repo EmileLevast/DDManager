@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="red">#FF0000</color>
+    <color name="redGrey">#664C4444</color>
+    <color name="transparent">#00000000</color>
+    <color name="strokeButton">#FFFFFF</color>
+    <color name="green">#00FF00</color>
+    <color name="black">#000000</color>
+    <color name="expColorForeground">#ffcc00</color>
+    <color name="expColorExpCenter">#ffffaa</color>
+    <color name="expColorBackground">#ff7700</color>
+    <color name="expColorEndBackground">#ff3300</color>
+    <color name="pointMana">#CC00FF</color>
+    <color name="backgroundFragment">#DC555555</color>
+
+</resources>
