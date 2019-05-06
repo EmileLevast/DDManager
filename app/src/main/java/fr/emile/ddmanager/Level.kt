@@ -1,9 +1,9 @@
 package fr.emile.ddmanager
 
 
-const val XP_BY_LEVEL = 50
+private const val FACTOR_BY_LEVEL=40
 
-class Level {
+class Level(val xpNeededLevel1:Int) {
 
 
     var currentLevel: Int = 0
@@ -23,13 +23,13 @@ class Level {
         var nbrLevelChange = 0
 
         xp += addXp
-        if (xp >= currentLevel * XP_BY_LEVEL) {
+        if (xp >= calculateXpForLevel()) {
             //we win a level
 
             //we calculate the xpSupp already won for the next level(and maybe we can get a second level
             var xpTempo = xp
             xp = 0
-            xpTempo -= currentLevel * XP_BY_LEVEL
+            xpTempo -= calculateXpForLevel()
             currentLevel++
 
             nbrLevelChange = 1 + addXp(xpTempo)
@@ -38,7 +38,7 @@ class Level {
             if (currentLevel > 1) {
                 val xpTempo = xp
                 currentLevel--
-                xp = currentLevel * XP_BY_LEVEL
+                xp = calculateXpForLevel()
 
                 nbrLevelChange = 1 + addXp(xpTempo)
 
@@ -48,6 +48,11 @@ class Level {
         }
         return nbrLevelChange
 
+    }
+
+    fun calculateXpForLevel():Int
+    {
+        return (currentLevel-1)* FACTOR_BY_LEVEL+ xpNeededLevel1
     }
 
 

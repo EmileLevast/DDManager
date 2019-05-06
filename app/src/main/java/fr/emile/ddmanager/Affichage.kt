@@ -49,11 +49,11 @@ class Affichage(
         }
 
         buttonKillMonster.setOnClickListener {
-            activity.createCustomFragment(1)
+            activity.createCustomFragment(true)
         }
 
         buttonLoseXpMonster.setOnClickListener {
-            activity.createCustomFragment(-1)
+            activity.createCustomFragment(false)
         }
 
     }
@@ -101,7 +101,7 @@ class Affichage(
 
     private fun initProgressBar(personnage: Personnage)
     {
-        xpBarre.max=personnage.levelStat.currentLevel* XP_BY_LEVEL
+        xpBarre.max=personnage.levelStat.calculateXpForLevel()
         xpBarre.progress=personnage.levelStat.xp
     }
 
@@ -182,7 +182,7 @@ class Affichage(
                 }
 
                 //after we clicked we update the value of the player
-                activity.updateStatJoueurWithGridView(pvGrid.currentNumber,manaGrid.currentNumber)
+                activity.updateStatJoueurWithGridView(manaGrid.currentNumber,pvGrid.currentNumber)
             }
 
             pointGrid.post{

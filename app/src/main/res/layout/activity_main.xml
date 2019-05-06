@@ -58,18 +58,18 @@
             android:text="Level 0"
             />
 
-        <!--
-        Button
-       -->
+
 
         <ImageButton
             style="@style/buttonPerso"
             android:id="@+id/buttonKillMonster"
             android:src="@drawable/buttonkillmonster"
             />
+
         <ImageButton
             style="@style/buttonPerso"
             android:id="@+id/buttonLoseXpMonster"
             android:src="@drawable/buttonlosexpmonster"
         />
+
 </RelativeLayout>

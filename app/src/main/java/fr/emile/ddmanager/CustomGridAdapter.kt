@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 
 
-class CustomGridAdapter(private var activity: Activity, private var characterList: MutableList<Character>) : ArrayAdapter<Int>(activity, 0, characterList.getOnlyIdImage()) {
+class CustomGridAdapter(private var activity: Activity, private var characterList: MutableList<Monster>) : ArrayAdapter<Int>(activity, 0, characterList.getOnlyIdImage()) {
     //private val characterList: ArrayList<Character>
 
     private val marginBetweenPictures = 10//pixel
@@ -69,7 +69,7 @@ class CustomGridAdapter(private var activity: Activity, private var characterLis
         return listItem
     }
 
-    fun setImg(img: List<Character>) {
+    fun setImg(img: List<Monster>) {
         this.characterList.clear()
         this.characterList.addAll(img)
     }

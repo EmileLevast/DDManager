@@ -17,9 +17,29 @@ class Container<T>(@NonNull vararg listElmt:T) where T: keyableForMap {
         //we save the object passed in constructor in our list
         for( item in listElmt)
         {
-            this.listKeyElmt.add(item.toKey())
-            this.listElmt[item.toKey()] = item
+            add(item)
         }
+    }
+
+    fun add(newElmt:T)
+    {
+        listKeyElmt.add(newElmt.toKey())
+        listElmt[newElmt.toKey()] = newElmt
+    }
+
+    fun remove(elmtToDelete:T)
+    {
+        listKeyElmt.remove(elmtToDelete.toKey())
+        listElmt.remove(elmtToDelete.toKey())
+        if(index>=listKeyElmt.size && index!=0)
+        {
+            index=listKeyElmt.size-1
+        }
+    }
+
+    fun contains(elmtToTest:T):Boolean
+    {
+        return listElmt.contains(elmtToTest.toKey())
     }
 
     fun indexUp()
@@ -76,6 +96,17 @@ class Container<T>(@NonNull vararg listElmt:T) where T: keyableForMap {
         //we can assert that never return null because we take a name in a list of key
         indexUp()
         return listElmt[listKeyElmt[index]]!!
+    }
+
+    //use it when you want to retreive the data as a List
+    //it keep the order you gave to create the container
+    fun toListSorted():MutableList<T>
+    {
+        val listRes:MutableList<T> = mutableListOf()
+        listKeyElmt.forEach {
+            listRes.add(listElmt[it]!!)
+        }
+        return listRes
     }
 
 

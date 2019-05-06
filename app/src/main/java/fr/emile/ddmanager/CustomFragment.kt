@@ -3,6 +3,7 @@ package fr.emile.ddmanager
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,13 @@ import android.widget.GridView
  */
 class CustomFragment : Fragment() {
 
-    lateinit var gridAdapter:CustomGridAdapter
+    var gridAdapter:CustomGridAdapter? = null
     lateinit var gridView:GridView
+
+    var listToShow:MutableList<Monster>? = null
+
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.layout_fragment,
@@ -25,14 +31,36 @@ class CustomFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
-        gridAdapter= CustomGridAdapter(context as Activity,Monster.containerRef.listElmt.values.toMutableList())
         gridView=(context as Activity).findViewById(R.id.gridViewMonster)
-        gridView.numColumns=gridAdapter.nbrColumnGridView
-        gridView.adapter=gridAdapter
+
+        if(listToShow!=null)
+        {
+            initAdapter()
+        }
 
         initGridView()
 
         super.onActivityCreated(savedInstanceState)
+    }
+
+    fun setAdapter(listToShow:MutableList<Monster>)
+    {
+
+        this.listToShow=listToShow
+
+        if(context!=null)
+        {
+            initAdapter()
+        }
+
+    }
+
+    //instantiate listToShow before this method
+    fun initAdapter()
+    {
+        gridAdapter = CustomGridAdapter(context as Activity, listToShow!!)
+        gridView.numColumns = gridAdapter!!.nbrColumnGridView
+        gridView.adapter = gridAdapter
     }
 
     private fun initGridView()
@@ -40,9 +68,10 @@ class CustomFragment : Fragment() {
         gridView.onItemClickListener = AdapterView.OnItemClickListener{ _, _, position: Int,_ ->
 
             //get the monster at this position
-            val monsterClicked=Monster.containerRef[position]!!
+            val monsterClicked= listToShow!![position]
             (context as MainAcvtivity).playerSelectMonster(monsterClicked)
-
         }
     }
+
+
 }

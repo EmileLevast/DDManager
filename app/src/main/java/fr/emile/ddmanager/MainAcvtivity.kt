@@ -19,7 +19,7 @@ class MainAcvtivity : AppCompatActivity() {
 
 
     //littel var just because I should have done a MVC
-    var posOrNeg=1//must be 1 or -1 , used to determine if player win or loseXp
+    var killMonster=true//if true the player is selecting a monster that he killed otherwise he lose the xp of this monster
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +60,7 @@ class MainAcvtivity : AppCompatActivity() {
 
     fun playerSelectMonster(monsterClicked:Monster)
     {
-        joueur.levelStat.addXp(monsterClicked.costXp*posOrNeg)
+        joueur.selectMonster(monsterClicked.clone(),killMonster)
         updateUi()
         supportFragmentManager.popBackStack()
     }
@@ -68,13 +68,23 @@ class MainAcvtivity : AppCompatActivity() {
     /**
     [posOrNeg] is 1 when the user select a monster to win xp and -1 when the user select a monster to lose xp
      */
-    fun createCustomFragment(posOrNeg:Int)
+    fun createCustomFragment(killMonster:Boolean)
     {
-        this.posOrNeg=posOrNeg
+        this.killMonster=killMonster
 
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
         val frag=CustomFragment()
+
+        if(killMonster)
+        {
+            frag.setAdapter(Monster.containerRef.toListSorted())
+        }
+        else
+        {
+            frag.setAdapter(joueur.containerKills.toListSorted())
+        }
+
         ft.add(R.id.ecran,frag)
         ft.addToBackStack(null)
         ft.commit()
