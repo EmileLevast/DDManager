@@ -7,7 +7,7 @@ import android.support.annotation.NonNull
  */
 
 //Interdit de ne donner aucun element a notre container
-class Container<T>(@NonNull vararg listElmt:T) where T: keyableForMap {
+class Container<T>(@NonNull vararg listElmt:T) where T: KeyableForMap {
 
     private val listKeyElmt= arrayListOf<String>()
     val listElmt= hashMapOf<String,T>()

@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 
 
-class CustomGridAdapter(private var activity: Activity, private var characterList: MutableList<Monster>) : ArrayAdapter<Int>(activity, 0, characterList.getOnlyIdImage()) {
+class GridAdapterMonster(private var activity: Activity, private var characterList: MutableList<Monster>) : ArrayAdapter<Int>(activity, 0, characterList.getOnlyIdImage()) {
     //private val characterList: ArrayList<Character>
 
     private val marginBetweenPictures = 10//pixel
@@ -50,7 +50,7 @@ class CustomGridAdapter(private var activity: Activity, private var characterLis
             imageView.layoutParams = param
 
             viewHolder.imageView = imageView
-            //viewHolder.textXpCost = textXpCost
+            //viewHolder.textPowerDescription = textPowerDescription
             listItem.tag = viewHolder
         } else {
             //we get the views previously registered
@@ -64,7 +64,7 @@ class CustomGridAdapter(private var activity: Activity, private var characterLis
 
         //viewHolder.getImageView().setImageResource(currentImg);
         viewHolder.imageView!!.setImageBitmap(decodeSampledBitmapFromResource(currentImg.imgId, widthImg, heightImg))
-        //viewHolder.textXpCost!!.setText(currentImg.xpCost)
+        //viewHolder.textPowerDescription!!.setText(currentImg.xpCost)
 
         return listItem
     }
@@ -131,6 +131,6 @@ class CustomGridAdapter(private var activity: Activity, private var characterLis
 // class to save view
     inner class ViewHolder {
         var imageView: ImageView? = null
-        //var textXpCost: TextView? = null
+        //var textPowerDescription: TextView? = null
     }
 }

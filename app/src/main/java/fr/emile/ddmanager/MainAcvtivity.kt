@@ -35,6 +35,7 @@ class MainAcvtivity : AppCompatActivity() {
                 expBar,
                 buttonKillMonster,
                 buttonLoseXpMonster,
+                buttonshowPower,
                 textViewLevel
         )
 
@@ -68,13 +69,13 @@ class MainAcvtivity : AppCompatActivity() {
     /**
     [posOrNeg] is 1 when the user select a monster to win xp and -1 when the user select a monster to lose xp
      */
-    fun createCustomFragment(killMonster:Boolean)
+    fun createFragmentMonster(killMonster:Boolean)
     {
         this.killMonster=killMonster
 
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
-        val frag=CustomFragment()
+        val frag=FragmentMonsterList()
 
         if(killMonster)
         {
@@ -84,6 +85,18 @@ class MainAcvtivity : AppCompatActivity() {
         {
             frag.setAdapter(joueur.containerKills.toListSorted())
         }
+
+        ft.add(R.id.ecran,frag)
+        ft.addToBackStack(null)
+        ft.commit()
+    }
+
+    fun createFragmentPower()
+    {
+        val fm = supportFragmentManager
+        val ft = fm.beginTransaction()
+        val frag=FragmentHeroPower()
+        frag.setAdapter(joueur.listPowers)
 
         ft.add(R.id.ecran,frag)
         ft.addToBackStack(null)

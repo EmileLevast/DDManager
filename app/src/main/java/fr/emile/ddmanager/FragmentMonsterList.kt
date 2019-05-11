@@ -3,7 +3,6 @@ package fr.emile.ddmanager
 
 import android.app.Activity
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +13,9 @@ import android.widget.GridView
 /**
  * Created by emile on 07/04/2019.
  */
-class CustomFragment : Fragment() {
+class FragmentMonsterList : Fragment() {
 
-    var gridAdapter:CustomGridAdapter? = null
+    var gridAdapterMonster:GridAdapterMonster? = null
     lateinit var gridView:GridView
 
     var listToShow:MutableList<Monster>? = null
@@ -25,7 +24,7 @@ class CustomFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.layout_fragment,
+        return inflater.inflate(R.layout.fragment_monster,
                 container, false)
     }
 
@@ -58,9 +57,9 @@ class CustomFragment : Fragment() {
     //instantiate listToShow before this method
     fun initAdapter()
     {
-        gridAdapter = CustomGridAdapter(context as Activity, listToShow!!)
-        gridView.numColumns = gridAdapter!!.nbrColumnGridView
-        gridView.adapter = gridAdapter
+        gridAdapterMonster = GridAdapterMonster(context as Activity, listToShow!!)
+        gridView.numColumns = gridAdapterMonster!!.nbrColumnGridView
+        gridView.adapter = gridAdapterMonster
     }
 
     private fun initGridView()

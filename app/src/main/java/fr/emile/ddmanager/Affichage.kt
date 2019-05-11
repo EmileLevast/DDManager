@@ -11,7 +11,7 @@ import android.widget.*
 //for intial screen, with the hero
 private const val NBR_CHILD_GRID=16
 private const val RAPPORT_IMAGE_ECRAN_X=4f/5f
-private const val RAPPORT_IMAGE_ECRAN_Y=4f/5f
+const val RAPPORT_IMAGE_ECRAN_Y=4f/5f
 
 
 
@@ -31,6 +31,7 @@ class Affichage(
         var xpBarre:ProgressBar,
         var buttonKillMonster:ImageButton,
         var buttonLoseXpMonster:ImageButton,
+        var buttonShowPower:ImageButton,
         var textViewLevel:TextView
 ) {
 
@@ -49,11 +50,15 @@ class Affichage(
         }
 
         buttonKillMonster.setOnClickListener {
-            activity.createCustomFragment(true)
+            activity.createFragmentMonster(true)
         }
 
         buttonLoseXpMonster.setOnClickListener {
-            activity.createCustomFragment(false)
+            activity.createFragmentMonster(false)
+        }
+
+        buttonShowPower.setOnClickListener {
+            activity.createFragmentPower()
         }
 
     }
@@ -130,6 +135,7 @@ class Affichage(
             //we create the buttons for the personnage
             setDimensionButtonPersonnage(1,0,buttonKillMonster)
             setDimensionButtonPersonnage(1,1,buttonLoseXpMonster)
+            setDimensionButtonPersonnage(8,0,buttonShowPower)
         }
     }
 
@@ -199,8 +205,9 @@ class Affichage(
 
     private fun initTypeface()
     {
-        var typeface=Typeface.createFromAsset(activity.assets,"font/hobbitonbrushhand.ttf")
+        val typeface=Typeface.createFromAsset(activity.assets,"font/hobbitonbrushhand.ttf")
         textViewLevel.typeface = typeface
+        activity.findViewById<TextView>(R.id.textPowerDescription).typeface = typeface
     }
 
 }

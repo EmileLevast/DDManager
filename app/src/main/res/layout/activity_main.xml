@@ -72,4 +72,10 @@
             android:src="@drawable/buttonlosexpmonster"
         />
 
+        <ImageButton
+            style="@style/buttonPerso"
+            android:id="@+id/buttonshowPower"
+            android:src="@drawable/gondor_archives"
+        />
+
 </RelativeLayout>
