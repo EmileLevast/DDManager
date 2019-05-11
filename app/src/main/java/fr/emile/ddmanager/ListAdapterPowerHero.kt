@@ -3,14 +3,12 @@ package fr.emile.ddmanager
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 
 class ListAdapterPowerHero(activity: Activity, private var listPower: MutableList<Power>) : ArrayAdapter<Int>(activity, 0, listPower.getOnlyIdImage()) {
 
@@ -41,10 +39,10 @@ class ListAdapterPowerHero(activity: Activity, private var listPower: MutableLis
             val imageView: ImageView = listItem.findViewById(R.id.imageViewPower)
             val textDescriptionPower: TextView = listItem.findViewById(R.id.textPowerDescription)
 
-            widthImg = (WIDTH_SCREEN!! * (1 - RAPPORT_IMAGE_ECRAN_Y)).toInt()
+            widthImg = (HEIGHT_SCREEN!! * (1 - RAPPORT_IMAGE_ECRAN_Y)).toInt()
             heightImg = widthImg//(widthImg/calculateRatioWidthHeigth(currentPower.imgId)).toInt()
 
-            val param = RelativeLayout.LayoutParams(widthImg, heightImg)
+            val param = LinearLayout.LayoutParams(widthImg, heightImg)
             //param.setMargins(marginBetweenPictures, marginBetweenPictures, marginBetweenPictures, marginBetweenPictures)
             imageView.layoutParams = param
 
@@ -64,6 +62,10 @@ class ListAdapterPowerHero(activity: Activity, private var listPower: MutableLis
         //viewHolder.getImageView().setImageResource(currentImg);
         viewHolder.imageView!!.setImageBitmap(decodeSampledBitmapFromResource(currentPower.idImg, widthImg, heightImg))
         viewHolder.textPowerDescription!!.text = currentPower.textExplanation
+
+        //set Typeface
+        val typeface= Typeface.createFromAsset((context as Activity).assets,"font/hobbitonbrushhand.ttf")
+        viewHolder.textPowerDescription!!.typeface=typeface
 
         return listItem
     }

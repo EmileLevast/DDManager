@@ -2,6 +2,7 @@ package fr.emile.ddmanager
 
 import android.graphics.Typeface
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 
@@ -207,7 +208,6 @@ class Affichage(
     {
         val typeface=Typeface.createFromAsset(activity.assets,"font/hobbitonbrushhand.ttf")
         textViewLevel.typeface = typeface
-        activity.findViewById<TextView>(R.id.textPowerDescription).typeface = typeface
     }
 
 }

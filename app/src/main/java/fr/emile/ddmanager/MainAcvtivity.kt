@@ -96,7 +96,7 @@ class MainAcvtivity : AppCompatActivity() {
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
         val frag=FragmentHeroPower()
-        frag.setAdapter(joueur.listPowers)
+        frag.setAdapter(joueur.listPowers.filter{joueur.levelStat.currentLevel>=it.availableLevel}.toMutableList())
 
         ft.add(R.id.ecran,frag)
         ft.addToBackStack(null)
