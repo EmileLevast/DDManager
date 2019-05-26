@@ -74,14 +74,26 @@ class Power (var idImg:Int,var textExplanation:String,var availableLevel:Int): T
     companion object {
         val listPowerLidda= mutableListOf(
                 Power(R.drawable.gnollcard,"Lidda peut effectuer un deplacement gratuit de 1 case après avoir frappe",2),
+                Power(R.drawable.gnollcard,"Lidda peut regarder à travers la serrure des portes. Pour 1 d'action le MJ doit devoiler les monstres" +
+                        "présents derrière la porte sur laquelle se tient Lidda (si les monstres ne sont pas deja presents le MJ ne doit pas les devoiler)." +
+                        "Lidda n'est pas obligee d'ouvrir la porte par la suite.",2),
+
                 Power(R.drawable.gnollcard,"Lidda peut passer sous un monstre, sans effectuer d'attaque sournoise, " +
-                "et sur etoile elle peut piocher une carte dans la pioche de tresors. Si elle rate le jet etoile le monstre peut la frapper" +
-                        " immediatement, lidda reste sur la case par laquelle elle allait passer sous le monstre et son tour est fini",3),
-                Power(R.drawable.gnollcard,"Si lidda desamorce un piège elle peut le lancer sur un monstre en ligne de vue et à moins de 3 cases d'elle." +
-                        "Le monstre prend les effets du piège (si c'est un resurrection du mal ou autre piège semblable, on resout les effets du pièges comme si un heros l'avait active",3),
-                Power(R.drawable.gnollcard,"Au corps à corps , pour 2 d'action, Lidda ignore l'armure",4),
-                Power(R.drawable.gnollcard,"Lidda peut marcher sur les pièges sans les declencher, le mj ne doit pas indiquer si " +
-                        "elle a marche sur un pièges ou non",5)
+                "et sur etoile elle peut piocher une carte dans la pioche de tresors. Si elle rate le jet etoile son tour est fini et elle doit se defausser d'un artefact ou d'une arme.",3),
+                Power(R.drawable.gnollcard,"Lidda peut ignorer les effets des pieges pioches et piocher une nouvelle carte a la place.",3),
+
+                Power(R.drawable.gnollcard,"Au corps à corps , si Lidda se trouve derriere le monstre (regarder la position de la figurin" +
+                        "e) alors elle ignore son armure.",4),
+                Power(R.drawable.gnollcard,"Si Lidda est en contact avec un mur, on considere qu'elle se camoufle et un monstre doit faire etoile " +
+                        "pour reussir a rentrer au corps a corps avec elle (si l'etoile rate le deplacement est fini pour le monstre). ",4),
+
+
+
+                Power(R.drawable.gnollcard,"Lidda peut se deplacer de 3 manieres au choix (1 seul deplacement par tour):\n" +
+                        "-furtivement, Lidda se deplace de 5 mais peut tenter de desamorcer les pieges sur lesquels elle marche. Si elle" +
+                        "reussit son tour continue sinon elle subit les effets." +
+                        "\n-prestement, Lidda se deplace de 7 et le MJ n'active pas les pieges qu'elle rencontre ni n'indique leur existence." +
+                        "\n-normalement.",5)
                 )
 
         val listPowerMyalie=mutableListOf(
@@ -96,24 +108,29 @@ class Power (var idImg:Int,var textExplanation:String,var availableLevel:Int): T
         )
 
         val listPowerRegdar= mutableListOf(
-                Power(R.drawable.gnollcard,"Les ennemis au corps à corps avec regdar ne peuvent quitter leur case que sur etoile",2),
+                Power(R.drawable.gnollcard,"Les ennemis au corps a corps avec regdar ne peuvent quitter leur case que sur etoile",2),
                 Power(R.drawable.gnollcard,"Avant de lancer les des pour un corps à corps, regdar peut diminuer son attaque de 1 de degat mais tous les monstres au corps à corps avec" +
                         "lui subiront cette attaque",3),
-                Power(R.drawable.gnollcard,"Regdar possède maintenant 3 d'armure",4),
+                Power(R.drawable.gnollcard,"Regdar possede maintenant 3 d'armure",4),
                 Power(R.drawable.gnollcard,"Sur etoile Regdar peut infliger le double de degat, ne marche pas avec les degats de zone",5)
                 )
 
         val listPowerJozan= mutableListOf(
-                Power(R.drawable.gnollcard,"Lorsque Jozan tue un monstre il restaure un point de mana ou de vie lui-même " +
-                        "et aux allies en contact avec lui (diagonales non comprises.",2),
+                Power(R.drawable.gnollcard,"Lorsque Jozan tue un monstre il se restaure 2 pts de mana (ne peut pas depasser sa reserve max)" +
+                        "et les allies en contact avec lui (diagonales non comprises) restaurent 1 pv ou 1 mana.",2),
+
                 Power(R.drawable.gnollcard,"Les sorts coûtent un point de moins de mana à Jozan",3),
-                Power(R.drawable.gnollcard,"Jozan inflige 2 pts de degats supplementaires aux mort-vivants",3),
-                Power(R.drawable.gnollcard,"Jozan peut effectuer un renvoi des mort-vivant pour 0 action s'il reussit un jet etoile." +
-                        "S'il rate il ne peut plus essayer de le faire pour 1 d'action",4),
-                Power(R.drawable.gnollcard,"Jozan peut prendre le contrôled'un coequipier et jouer son tour entier comme s'il etait ce coequipier." +
-                        "Au final le coequipier jouera 2 fois dans ce tour mais dirige 2 fois par un joueur different tandis que jozan n'aura pas joue du tout.",4),
-                Power(R.drawable.gnollcard,"Jozan peut repartir comme il le souhaite les degat entre lui et un coequipier en contact avec lui qui vient d'être frappe;" +
-                        "ou entre lui qui vient de se faire frappe et un coequipier en contact avec lui.",5)
+                Power(R.drawable.gnollcard,"Jozan inflige 2 pts de degats supplementaires aux morts-vivants",3),
+
+                Power(R.drawable.gnollcard,"Le renvoi de morts-vivants ne coute plus d'action pour Jozan mais seulement 2 renvois max par tour.",4),
+                Power(R.drawable.gnollcard,"Si Jozan depense 2 pts de mana ou plus en meme temps pour soigner un heros (dont lui-meme)," +
+                        " celui-ci recupere 1 pt de vie supplémentaire.",4),
+
+                Power(R.drawable.gnollcard,"Jozan peut prendre le controle d'un coequipier et jouer son tour entier comme s'il etait ce coequipier." +
+                        "Au final le coequipier jouera 2 fois dans ce tour mais dirige 2 fois par un joueur " +
+                        "different tandis que jozan n'aura pas joue du tout.",5),
+                Power(R.drawable.gnollcard,"Le renvoi des morts-vivants inflige le nombre de cranes en degat contre la cible.\n(n'ignore pas l'armure mais " +
+                        "ne pas oublier d'y ajouter le +2 grace au bonus d'attaque contre les morts-vivants)",5)
                 )
     }
 }
