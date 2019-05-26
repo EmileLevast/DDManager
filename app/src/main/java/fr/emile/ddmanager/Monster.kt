@@ -14,12 +14,12 @@ class Monster(imgId:Int,nom:String,var number:Int,var costXp:Int) :Character(img
 
     companion object {
         val containerRef=Container(
-        Monster(R.drawable.gobelincard,"Gobelin",1,5),
-        Monster(R.drawable.squelettecard,"Squelette",1,8),
-        Monster(R.drawable.gobelourscard,"Gobelours",1,14),
-        Monster(R.drawable.gnollcard,"Gnoll",1,16),
-        Monster(R.drawable.ogrecard,"Ogre",1,21),
-        Monster(R.drawable.vasecard,"Vase",1,25),
+        Monster(R.drawable.gobelincard,"Gobelin",1,8),
+        Monster(R.drawable.squelettecard,"Squelette",1,10),
+        Monster(R.drawable.gobelourscard,"Gobelours",1,18),
+        Monster(R.drawable.gnollcard,"Gnoll",1,17),
+        Monster(R.drawable.vasecard,"Vase",1,23),
+        Monster(R.drawable.ogrecard,"Ogre",1,24),
         Monster(R.drawable.charognardcard,"Charognard",1,28),
         Monster(R.drawable.necrophagecard,"Necrophage",1,31),
         Monster(R.drawable.spectercard,"Spectre",1,33),

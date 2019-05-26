@@ -60,10 +60,10 @@ class Personnage private constructor(vie:Int,
 
     companion object {
         val containerRef=Container(
-                Personnage(15,0,30,R.drawable.regdardescriptioncard,"Regdar",Power.listPowerRegdar),
+                Personnage(15,0,36,R.drawable.regdardescriptioncard,"Regdar",Power.listPowerRegdar),
                 Personnage(10,0,20,R.drawable.liddadescriptioncard,"Lidda",Power.listPowerLidda),
-                Personnage(9,11,26,R.drawable.myaliedescriptioncard,"Myalië",Power.listPowerMyalie),
-                Personnage(11,9,24,R.drawable.jozandescriptioncard,"Jozan",Power.listPowerJozan))
+                Personnage(9,11,29,R.drawable.myaliedescriptioncard,"Myalië",Power.listPowerMyalie),
+                Personnage(11,9,25,R.drawable.jozandescriptioncard,"Jozan",Power.listPowerJozan))
     }
 }
 
