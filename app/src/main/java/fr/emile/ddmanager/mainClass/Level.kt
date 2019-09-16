@@ -1,4 +1,4 @@
-package fr.emile.ddmanager
+package fr.emile.ddmanager.mainClass
 
 
 private const val FACTOR_BY_LEVEL=40
@@ -52,7 +52,7 @@ class Level(val xpNeededLevel1:Int) {
 
     fun calculateXpForLevel():Int
     {
-        return (currentLevel-1)* FACTOR_BY_LEVEL+ xpNeededLevel1
+        return (currentLevel-1)* FACTOR_BY_LEVEL + xpNeededLevel1
     }
 
 

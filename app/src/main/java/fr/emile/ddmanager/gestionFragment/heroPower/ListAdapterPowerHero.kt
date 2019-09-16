@@ -1,4 +1,4 @@
-package fr.emile.ddmanager
+package fr.emile.ddmanager.gestionFragment.heroPower
 
 import android.app.Activity
 import android.graphics.Bitmap
@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import fr.emile.ddmanager.*
+import fr.emile.ddmanager.mainClass.Power
 
 class ListAdapterPowerHero(activity: Activity, private var listPower: MutableList<Power>) : ArrayAdapter<Int>(activity, 0, listPower.getOnlyIdImage()) {
 
@@ -64,7 +66,7 @@ class ListAdapterPowerHero(activity: Activity, private var listPower: MutableLis
         viewHolder.textPowerDescription!!.text = currentPower.textExplanation
 
         //set Typeface
-        val typeface= Typeface.createFromAsset((context as Activity).assets,"font/hobbitonbrushhand.ttf")
+        val typeface= Typeface.createFromAsset((context as Activity).assets,"font/bilboregular.ttf")
         viewHolder.textPowerDescription!!.typeface=typeface
 
         return listItem

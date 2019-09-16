@@ -1,6 +1,7 @@
 package fr.emile.ddmanager
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.GridLayout
@@ -48,4 +49,14 @@ class GridCustomPoint:GridLayout {
         numberReferenceInit=valueReferenceInit
     }
 
+}
+
+//some functions for manage view size
+fun calculateRatioWidthHeigth(imgId:Int, context: Context):Float
+{
+    val options = BitmapFactory.Options()
+    options.inJustDecodeBounds = true
+    BitmapFactory.decodeResource(context.resources, imgId, options)
+
+    return options.outWidth.toFloat() / options.outHeight.toFloat()
 }

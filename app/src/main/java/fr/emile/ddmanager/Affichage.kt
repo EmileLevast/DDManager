@@ -2,16 +2,21 @@ package fr.emile.ddmanager
 
 import android.graphics.Typeface
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import fr.emile.ddmanager.gestionFragment.DeckFragment
+import fr.emile.ddmanager.gestionFragment.heroPower.FragmentHeroPower
+import fr.emile.ddmanager.gestionFragment.monsterFragment.FragmentListMonsterKilled
+import fr.emile.ddmanager.gestionFragment.monsterFragment.FragmentListMonsterToKill
+import fr.emile.ddmanager.mainClass.Personnage
+import fr.emile.ddmanager.mainClass.StuffCard
 
 /**
  * Top Level Declaration
  */
 //for intial screen, with the hero
 private const val NBR_CHILD_GRID=16
-private const val RAPPORT_IMAGE_ECRAN_X=4f/5f
+const val RAPPORT_IMAGE_ECRAN_X=4f/5f
 const val RAPPORT_IMAGE_ECRAN_Y=4f/5f
 
 
@@ -33,6 +38,7 @@ class Affichage(
         var buttonKillMonster:ImageButton,
         var buttonLoseXpMonster:ImageButton,
         var buttonShowPower:ImageButton,
+        var buttonDeckPicker:ImageButton,
         var textViewLevel:TextView
 ) {
 
@@ -51,15 +57,19 @@ class Affichage(
         }
 
         buttonKillMonster.setOnClickListener {
-            activity.createFragmentMonster(true)
+            activity.generateFrag(FragmentListMonsterToKill())
         }
 
         buttonLoseXpMonster.setOnClickListener {
-            activity.createFragmentMonster(false)
+            activity.generateFrag(FragmentListMonsterKilled())
         }
 
         buttonShowPower.setOnClickListener {
-            activity.createFragmentPower()
+            activity.generateFrag(FragmentHeroPower())
+        }
+
+        buttonDeckPicker.setOnClickListener {
+            activity.generateFrag(DeckFragment())
         }
 
     }
@@ -113,7 +123,7 @@ class Affichage(
 
     private fun initTextView(personnage: Personnage)
     {
-        textViewLevel.text="Level : "+personnage.levelStat.currentLevel
+        textViewLevel.text="level : "+personnage.levelStat.currentLevel
     }
 
     //function for creation of the layout
@@ -137,6 +147,7 @@ class Affichage(
             setDimensionButtonPersonnage(1,0,buttonKillMonster)
             setDimensionButtonPersonnage(1,1,buttonLoseXpMonster)
             setDimensionButtonPersonnage(8,0,buttonShowPower)
+            setDimensionButtonPersonnage(8,1,buttonDeckPicker)
         }
     }
 
@@ -206,7 +217,7 @@ class Affichage(
 
     private fun initTypeface()
     {
-        val typeface=Typeface.createFromAsset(activity.assets,"font/hobbitonbrushhand.ttf")
+        val typeface=Typeface.createFromAsset(activity.assets,"font/bilboregular.ttf")
         textViewLevel.typeface = typeface
     }
 

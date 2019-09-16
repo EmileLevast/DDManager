@@ -78,4 +78,9 @@
             android:src="@drawable/gondor_archives"
         />
 
+        <ImageButton
+            style="@style/buttonPerso"
+            android:id="@+id/buttonDeckPicker"
+            android:src="@drawable/chest"/>
+
 </RelativeLayout>

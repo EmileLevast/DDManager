@@ -2,14 +2,23 @@ package fr.emile.ddmanager
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import fr.emile.ddmanager.mainClass.Monster
+import fr.emile.ddmanager.mainClass.Personnage
+import fr.emile.ddmanager.mainClass.StuffCard
+import fr.emile.ddmanager.gestionFragment.DeckFragment
+import fr.emile.ddmanager.gestionFragment.FragmentGenerate
+import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
+import fr.emile.ddmanager.gestionFragment.heroPower.FragmentHeroPower
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 
-class MainAcvtivity : AppCompatActivity() {
+lateinit var joueur: Personnage
 
+class MainAcvtivity : AppCompatActivity() {
     lateinit var affichage:Affichage
-    lateinit var joueur:Personnage
+    var fragGenerator:FragmentGenerate= FragmentGenerate()
 
     var currentPlayedPerso=Container(
             Personnage(Personnage.containerRef.getEltWith("Regdar")!!),
@@ -17,9 +26,6 @@ class MainAcvtivity : AppCompatActivity() {
             Personnage(Personnage.containerRef.getEltWith("Lidda")!!),
             Personnage(Personnage.containerRef.getEltWith("Myalië")!!))
 
-
-    //littel var just because I should have done a MVC
-    var killMonster=true//if true the player is selecting a monster that he killed otherwise he lose the xp of this monster
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +42,7 @@ class MainAcvtivity : AppCompatActivity() {
                 buttonKillMonster,
                 buttonLoseXpMonster,
                 buttonshowPower,
+                buttonDeckPicker,
                 textViewLevel
         )
 
@@ -59,48 +66,17 @@ class MainAcvtivity : AppCompatActivity() {
         affichage.initPersonnage(joueur)
     }
 
-    fun playerSelectMonster(monsterClicked:Monster)
+    fun playerSelectMonster(monsterClicked: Monster, joueurAction: (Personnage.( Monster) -> Unit)?)
     {
-        joueur.selectMonster(monsterClicked.clone(),killMonster)
+        joueurAction?.let { joueur.it(monsterClicked) }
         updateUi()
         supportFragmentManager.popBackStack()
     }
 
-    /**
-    [posOrNeg] is 1 when the user select a monster to win xp and -1 when the user select a monster to lose xp
-     */
-    fun createFragmentMonster(killMonster:Boolean)
+    fun generateFrag(fragToGenerate:CustomFragment)
     {
-        this.killMonster=killMonster
-
-        val fm = supportFragmentManager
-        val ft = fm.beginTransaction()
-        val frag=FragmentMonsterList()
-
-        if(killMonster)
-        {
-            frag.setAdapter(Monster.containerRef.toListSorted())
-        }
-        else
-        {
-            frag.setAdapter(joueur.containerKills.toListSorted())
-        }
-
-        ft.add(R.id.ecran,frag)
-        ft.addToBackStack(null)
-        ft.commit()
-    }
-
-    fun createFragmentPower()
-    {
-        val fm = supportFragmentManager
-        val ft = fm.beginTransaction()
-        val frag=FragmentHeroPower()
-        frag.setAdapter(joueur.listPowers.filter{joueur.levelStat.currentLevel>=it.availableLevel}.toMutableList())
-
-        ft.add(R.id.ecran,frag)
-        ft.addToBackStack(null)
-        ft.commit()
+        fragToGenerate.launch()
+        fragGenerator.createFrag(fragToGenerate,this)
     }
 
 }

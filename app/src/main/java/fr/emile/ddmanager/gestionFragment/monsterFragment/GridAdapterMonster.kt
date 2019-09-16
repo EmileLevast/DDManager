@@ -1,4 +1,4 @@
-package fr.emile.ddmanager
+package fr.emile.ddmanager.gestionFragment.monsterFragment
 
 import android.app.Activity
 import android.graphics.BitmapFactory
@@ -10,6 +10,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import fr.emile.ddmanager.mainClass.Monster
+import fr.emile.ddmanager.R
+import fr.emile.ddmanager.WIDTH_SCREEN
+import fr.emile.ddmanager.calculateRatioWidthHeigth
+import fr.emile.ddmanager.getOnlyIdImage
 
 
 class GridAdapterMonster(private var activity: Activity, private var characterList: MutableList<Monster>) : ArrayAdapter<Int>(activity, 0, characterList.getOnlyIdImage()) {
@@ -43,7 +48,7 @@ class GridAdapterMonster(private var activity: Activity, private var characterLi
             //val textLegend = context.findViewById(R.id.textLegend)
 
             widthImg = (WIDTH_SCREEN!! - 2 * marginBetweenPictures * nbrColumnGridView) / nbrColumnGridView
-            heightImg= (widthImg/calculateRatioWidthHeigth(currentImg.imgId)).toInt()
+            heightImg= (widthImg/calculateRatioWidthHeigth(currentImg.imgId,context)).toInt()
 
             val param = RelativeLayout.LayoutParams(widthImg, heightImg)
             param.setMargins(marginBetweenPictures, marginBetweenPictures, marginBetweenPictures, marginBetweenPictures)
@@ -77,15 +82,6 @@ class GridAdapterMonster(private var activity: Activity, private var characterLi
     /*companion object {
         private val TAG = "CustomVIew"
 */
-
-        fun calculateRatioWidthHeigth(imgId:Int):Float
-        {
-            val options = BitmapFactory.Options()
-            options.inJustDecodeBounds = true
-            BitmapFactory.decodeResource(context.resources, imgId, options)
-
-            return options.outWidth.toFloat() / options.outHeight.toFloat()
-        }
 
         fun decodeSampledBitmapFromResource(
                                             resId: Int, reqWidth: Int, reqHeight: Int): Bitmap {

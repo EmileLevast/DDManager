@@ -10,7 +10,7 @@ import android.support.annotation.NonNull
 class Container<T>(@NonNull vararg listElmt:T) where T: KeyableForMap {
 
     private val listKeyElmt= arrayListOf<String>()
-    val listElmt= hashMapOf<String,T>()
+    private val listElmt= hashMapOf<String,T>()
     var index=0
 
     init {
@@ -24,6 +24,12 @@ class Container<T>(@NonNull vararg listElmt:T) where T: KeyableForMap {
     fun add(newElmt:T)
     {
         listKeyElmt.add(newElmt.toKey())
+        listElmt[newElmt.toKey()] = newElmt
+    }
+
+    fun pushFront(newElmt:T)
+    {
+        listKeyElmt.add(0,newElmt.toKey())
         listElmt[newElmt.toKey()] = newElmt
     }
 

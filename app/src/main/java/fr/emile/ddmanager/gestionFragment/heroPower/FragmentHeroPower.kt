@@ -1,46 +1,44 @@
-package fr.emile.ddmanager
+package fr.emile.ddmanager.gestionFragment.heroPower
 
 import android.app.Activity
 import android.graphics.Typeface
-import android.support.v4.app.Fragment
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.TextView
+import fr.emile.ddmanager.mainClass.Personnage
+import fr.emile.ddmanager.mainClass.Power
+import fr.emile.ddmanager.R
+import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
+import fr.emile.ddmanager.joueur
 
-class FragmentHeroPower : Fragment() {
+class FragmentHeroPower : CustomFragment() {
 
-    var listAdapter:ListAdapterPowerHero? = null
+    var listAdapter: ListAdapterPowerHero? = null
+
+    //listView to show monster
     lateinit var listView: ListView
 
+    //the monster list
     var listToShow:MutableList<Power>? = null
 
+    //the layout we want for this fragment
+    override val idLayoutToInflate: Int=R.layout.fragment_power
 
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-
+    override fun createView(inflater: LayoutInflater) {
         val layout=inflater.inflate(R.layout.layout_list_view,null)
         val txtView=layout.findViewById<TextView>(R.id.textPowerDescription)
-        val typeface= Typeface.createFromAsset(context?.assets,"font/hobbitonbrushhand.ttf")
+        val typeface= Typeface.createFromAsset(context?.assets,"font/bilboregular.ttf")
         txtView.typeface=typeface
-        return inflater.inflate(R.layout.fragment_power, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
 
+    override fun activityCreated() {
         listView=(context as Activity).findViewById(R.id.listViewPower)
 
         if(listToShow!=null)
         {
             initAdapter()
         }
-
-        super.onActivityCreated(savedInstanceState)
     }
 
     fun setAdapter(listToShow:MutableList<Power>)
@@ -62,6 +60,13 @@ class FragmentHeroPower : Fragment() {
         listView.adapter = listAdapter
     }
 
+    override fun launch() {
 
+        setAdapter(joueur.listPowers.filter
+        {
+            joueur.levelStat.currentLevel>=it.availableLevel
+        }.toMutableList())
+
+    }
 
 }
