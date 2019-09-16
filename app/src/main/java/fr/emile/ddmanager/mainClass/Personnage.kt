@@ -136,28 +136,28 @@ class Power (var idImg:Int,var textExplanation:String,var availableLevel:Int): T
         )
 
         val listPowerRegdar= mutableListOf(
-                Power(R.drawable.gnollcard, "les ennemis au corps a corps avec regdar ne peuvent quitter leur case que sur etoile", 2),
-                Power(R.drawable.gnollcard, "avant de lancer les des pour un corps a corps, regdar peut diminuer son attaque de 1 de degat mais tous les monstres au corps a corps avec" +
+                Power(R.drawable.afraid, "les ennemis au corps a corps avec regdar ne peuvent quitter leur case que sur etoile", 2),
+                Power(R.drawable.explosion, "avant de lancer les des pour un corps a corps, regdar peut diminuer son attaque de 1 de degat mais tous les monstres au corps a corps avec" +
                         "lui subiront cette attaque", 3),
-                Power(R.drawable.gnollcard, "Regdar possede maintenant 3 d'armure", 4),
-                Power(R.drawable.gnollcard, "sur etoile Regdar peut infliger le double de degat, ne marche pas avec les degats de zone", 5)
+                Power(R.drawable.armor, "Regdar possede maintenant 3 d'armure", 4),
+                Power(R.drawable.damage, "sur etoile Regdar peut infliger le double de degat, ne marche pas avec les degats de zone", 5)
                 )
 
         val listPowerJozan= mutableListOf(
-                Power(R.drawable.gnollcard, "lorsque Jozan tue un monstre il se restaure 2 pts de mana (ne peut pas depasser sa reserve max)" +
+                Power(R.drawable.care, "lorsque Jozan tue un monstre il se restaure 2 pts de mana (ne peut pas depasser sa reserve max)" +
                         "et les allies en contact avec lui (diagonales non comprises) restaurent 1 pv ou 1 mana.", 2),
 
-                Power(R.drawable.gnollcard, "les sorts coutent un point de moins de mana a Jozan", 3),
-                Power(R.drawable.gnollcard, "Jozan inflige 2 pts de degats supplementaires aux morts-vivants", 3),
+                Power(R.drawable.spell_symbol, "les sorts coutent un point de moins de mana a Jozan", 3),
+                Power(R.drawable.undead_symbol, "Jozan inflige 2 pts de degats supplementaires aux morts-vivants", 3),
 
-                Power(R.drawable.gnollcard, "le renvoi de morts-vivants ne coute plus d'action pour Jozan mais seulement 2 renvois max par tour.", 4),
-                Power(R.drawable.gnollcard, "si Jozan depense 2 pts de mana ou plus en meme temps pour soigner un heros (dont lui-meme)," +
+                Power(R.drawable.skeleton_hand, "le renvoi de morts-vivants ne coute plus d'action pour Jozan mais seulement 2 renvois max par tour.", 4),
+                Power(R.drawable.resurrection_symbol, "si Jozan depense 2 pts de mana ou plus en meme temps pour soigner un heros (dont lui-meme)," +
                         " celui-ci recupere 1 pt de vie supplementaire.", 4),
 
-                Power(R.drawable.gnollcard, "Jozan peut prendre le controle d'un coequipier et jouer son tour entier comme s'il etait ce coequipier." +
+                Power(R.drawable.godfather_symbol, "Jozan peut prendre le controle d'un coequipier et jouer son tour entier comme s'il etait ce coequipier." +
                         "au final le coequipier jouera 2 fois dans ce tour mais dirige 2 fois par un joueur " +
                         "different tandis que Jozan n'aura pas joue du tout.", 5),
-                Power(R.drawable.gnollcard, "le renvoi des morts-vivants inflige le nombre de cranes en degat contre la cible.\n(n'ignore pas l'armure mais " +
+                Power(R.drawable.heap_of_skull, "le renvoi des morts-vivants inflige le nombre de cranes en degat contre la cible.\n(n'ignore pas l'armure mais " +
                         "ne pas oublier d'y ajouter le +2 grace au bonus d'attaque contre les morts-vivants)", 5)
                 )
     }
