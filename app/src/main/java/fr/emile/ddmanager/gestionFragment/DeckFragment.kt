@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import fr.emile.ddmanager.*
-import fr.emile.ddmanager.mainClass.Personnage
+import fr.emile.ddmanager.gestionAffichage.WIDTH_SCREEN
 import fr.emile.ddmanager.mainClass.StuffCard
 import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
 

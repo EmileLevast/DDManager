@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import fr.emile.ddmanager.mainClass.Monster
 import fr.emile.ddmanager.R
-import fr.emile.ddmanager.WIDTH_SCREEN
+import fr.emile.ddmanager.gestionAffichage.WIDTH_SCREEN
 import fr.emile.ddmanager.calculateRatioWidthHeigth
 import fr.emile.ddmanager.getOnlyIdImage
 

@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import fr.emile.ddmanager.*
+import fr.emile.ddmanager.gestionAffichage.HEIGHT_SCREEN
+import fr.emile.ddmanager.gestionAffichage.RAPPORT_IMAGE_ECRAN_Y
 import fr.emile.ddmanager.mainClass.Power
 
 class ListAdapterPowerHero(activity: Activity, private var listPower: MutableList<Power>) : ArrayAdapter<Int>(activity, 0, listPower.getOnlyIdImage()) {

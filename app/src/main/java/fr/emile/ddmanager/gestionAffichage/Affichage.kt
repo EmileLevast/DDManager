@@ -1,15 +1,14 @@
-package fr.emile.ddmanager
+package fr.emile.ddmanager.gestionAffichage
 
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.widget.*
-import fr.emile.ddmanager.gestionFragment.DeckFragment
-import fr.emile.ddmanager.gestionFragment.heroPower.FragmentHeroPower
-import fr.emile.ddmanager.gestionFragment.monsterFragment.FragmentListMonsterKilled
-import fr.emile.ddmanager.gestionFragment.monsterFragment.FragmentListMonsterToKill
+import fr.emile.ddmanager.GridCustomPoint
+import fr.emile.ddmanager.MainAcvtivity
+import fr.emile.ddmanager.PointGrid
+import fr.emile.ddmanager.R
 import fr.emile.ddmanager.mainClass.Personnage
-import fr.emile.ddmanager.mainClass.StuffCard
 
 /**
  * Top Level Declaration
@@ -32,15 +31,13 @@ class Affichage(
         var activity: MainAcvtivity,
         private var ecran:RelativeLayout,
         var manaGrid: GridCustomPoint,
-        var pvGrid:GridCustomPoint,
+        var pvGrid: GridCustomPoint,
         var imagePersonnage:ImageView,
         var xpBarre:ProgressBar,
-        var buttonKillMonster:ImageButton,
-        var buttonLoseXpMonster:ImageButton,
-        var buttonShowPower:ImageButton,
-        var buttonDeckPicker:ImageButton,
-        var textViewLevel:TextView
-) {
+        var textViewLevel:TextView)
+{
+
+    var buttonManager=ButtonManager(activity)
 
     init {
 
@@ -48,29 +45,14 @@ class Affichage(
 
         //we prepare the layout
         setDimensionImagesPersonnage()
-        fillGridWithView(manaGrid,activity,R.drawable.fillpointgridmana,R.color.pointMana)
-        fillGridWithView(pvGrid,activity,R.drawable.fillpointgridvie,R.color.red)
+        fillGridWithView(manaGrid,activity, R.drawable.fillpointgridmana, R.color.pointMana)
+        fillGridWithView(pvGrid,activity, R.drawable.fillpointgridvie, R.color.red)
 
         //on indique l'effet quand on clique sur l'image
         imagePersonnage.setOnClickListener {
             activity.changeToNextPersonnage()
         }
 
-        buttonKillMonster.setOnClickListener {
-            activity.generateFrag(FragmentListMonsterToKill())
-        }
-
-        buttonLoseXpMonster.setOnClickListener {
-            activity.generateFrag(FragmentListMonsterKilled())
-        }
-
-        buttonShowPower.setOnClickListener {
-            activity.generateFrag(FragmentHeroPower())
-        }
-
-        buttonDeckPicker.setOnClickListener {
-            activity.generateFrag(DeckFragment())
-        }
 
     }
 
@@ -96,7 +78,7 @@ class Affichage(
     {
         for(i in 0 until gridLayout.childCount)
         {
-            val pointGrid:PointGrid= gridLayout.getChildAt(i) as PointGrid
+            val pointGrid: PointGrid = gridLayout.getChildAt(i) as PointGrid
 
             if(i<gridLayout.currentNumber)
             {
@@ -132,40 +114,25 @@ class Affichage(
     {
         imagePersonnage.post{
 
-            WIDTH_SCREEN=ecran.width
-            HEIGHT_SCREEN=ecran.height
+            WIDTH_SCREEN =ecran.width
+            HEIGHT_SCREEN =ecran.height
 
             val width= (WIDTH_SCREEN!!* RAPPORT_IMAGE_ECRAN_X).toInt()
             val height= (HEIGHT_SCREEN!!* RAPPORT_IMAGE_ECRAN_Y).toInt()
 
             val paramRelativeLayout=RelativeLayout.LayoutParams(width,height)
 
-            paramRelativeLayout.marginStart=(WIDTH_SCREEN!!* (1f-RAPPORT_IMAGE_ECRAN_X)/2f).toInt()
+            paramRelativeLayout.marginStart=(WIDTH_SCREEN!!* (1f- RAPPORT_IMAGE_ECRAN_X)/2f).toInt()
             imagePersonnage.layoutParams=paramRelativeLayout
 
-            //we create the buttons for the personnage
-            setDimensionButtonPersonnage(1,0,buttonKillMonster)
-            setDimensionButtonPersonnage(1,1,buttonLoseXpMonster)
-            setDimensionButtonPersonnage(8,0,buttonShowPower)
-            setDimensionButtonPersonnage(8,1,buttonDeckPicker)
+            buttonManager.placeButtons()
+
         }
     }
 
-    private fun setDimensionButtonPersonnage(posX:Int,posY:Int,buttonToSet:View)
-    {
 
-        val width= (WIDTH_SCREEN!!* ((1f-RAPPORT_IMAGE_ECRAN_X)/2f)).toInt()
-        val height=width// (HEIGHT_SCREEN!!* RAPPORT_IMAGE_ECRAN_Y).toInt()
 
-        val paramRelativeLayout=RelativeLayout.LayoutParams(width,height)
-        paramRelativeLayout.marginStart=width*posX
-        paramRelativeLayout.topMargin=height*(posY)
-
-        buttonToSet.layoutParams=paramRelativeLayout
-
-    }
-
-    private fun fillGridWithView(gridTofill:GridCustomPoint, activity: MainAcvtivity,
+    private fun fillGridWithView(gridTofill: GridCustomPoint, activity: MainAcvtivity,
                                  drawableFillBackgroundId:Int,
                                  colorEmptyTextId:Int)
     {
@@ -175,7 +142,7 @@ class Affichage(
 
         for(i in 1..NBR_CHILD_GRID)
         {
-            val pointGrid= PointGrid(activity,drawableFillBackgroundId,colorEmptyTextId,i,false)
+            val pointGrid= PointGrid(activity, drawableFillBackgroundId, colorEmptyTextId, i, false)
             pointGrid.text = i.toString()
             pointGrid.gravity= Gravity.CENTER
 
@@ -204,7 +171,7 @@ class Affichage(
             }
 
             pointGrid.post{
-                val width= (ecran.width*(1f-RAPPORT_IMAGE_ECRAN_X)/4f).toInt()
+                val width= (ecran.width*(1f- RAPPORT_IMAGE_ECRAN_X)/4f).toInt()
                 val paramRelativeLayout=GridLayout.LayoutParams(gridTofill.layoutParams)
                 paramRelativeLayout.width=width
                 paramRelativeLayout.height=width
