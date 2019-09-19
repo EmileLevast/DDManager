@@ -10,6 +10,7 @@ import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
 import fr.emile.ddmanager.gestionFragment.heroPower.FragmentHeroPower
 import fr.emile.ddmanager.gestionFragment.monsterFragment.FragmentListMonsterKilled
 import fr.emile.ddmanager.gestionFragment.monsterFragment.FragmentListMonsterToKill
+import fr.emile.ddmanager.gestionFragment.monsterFragment.FragmentStuff
 
 class ButtonManager(activity: MainAcvtivity){
 
@@ -17,15 +18,18 @@ class ButtonManager(activity: MainAcvtivity){
     var buttonLoseXpMonster: ImageButton=activity.findViewById(R.id.buttonLoseXpMonster)
     var buttonShowPower: ImageButton=activity.findViewById(R.id.buttonshowPower)
     var buttonDeckPicker: ImageButton=activity.findViewById(R.id.buttonDeckPicker)
+    var buttonShowStuff:ImageButton=activity.findViewById(R.id.buttonShowStuff)
+
 
     init {
         buttonKillMonster.associateFragment(FragmentListMonsterToKill(),activity)
         buttonLoseXpMonster.associateFragment(FragmentListMonsterKilled(),activity)
         buttonShowPower.associateFragment(FragmentHeroPower(),activity)
         buttonDeckPicker.associateFragment(DeckFragment(),activity)
+        buttonShowStuff.associateFragment(FragmentStuff(),activity)
     }
 
-    fun ImageButton.associateFragment(fragToAssociate:CustomFragment,activity: MainAcvtivity)
+    private fun ImageButton.associateFragment(fragToAssociate:CustomFragment, activity: MainAcvtivity)
     {
         setOnClickListener { activity.generateFrag(fragToAssociate) }
     }
@@ -37,6 +41,7 @@ class ButtonManager(activity: MainAcvtivity){
         setDimensionButtonPersonnage(1,1,buttonLoseXpMonster)
         setDimensionButtonPersonnage(8,0,buttonShowPower)
         setDimensionButtonPersonnage(8,1,buttonDeckPicker)
+        setDimensionButtonPersonnage(8,2,buttonShowStuff)
     }
 
     private fun setDimensionButtonPersonnage(posX:Int,posY:Int,buttonToSet: View)
@@ -50,6 +55,5 @@ class ButtonManager(activity: MainAcvtivity){
         paramRelativeLayout.topMargin=height*(posY)
 
         buttonToSet.layoutParams=paramRelativeLayout
-
     }
 }

@@ -19,5 +19,20 @@
             android:layout_alignParentTop="true"
             android:scaleType="centerInside"/>
 
+        <Button
+            android:id="@+id/buttonYes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prendre"
+            android:layout_below="@+id/imgCardPicked"
+            android:layout_alignStart="@+id/imgCardPicked"/>
+        <Button
+            android:id="@+id/buttonNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jeter"
+            android:layout_alignBottom="@+id/buttonYes"
+            android:layout_toEndOf="@+id/buttonYes"/>
+
 
 </RelativeLayout>

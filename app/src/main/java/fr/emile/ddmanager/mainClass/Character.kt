@@ -1,14 +1,12 @@
 package fr.emile.ddmanager.mainClass
 
-import fr.emile.ddmanager.KeyableForMap
-import fr.emile.ddmanager.ToIdDrawable
+import fr.emile.ddmanager.IKeyableForMap
+import fr.emile.ddmanager.IShowImage
 
 
-abstract class Character(var imgId:Int, var nom:String): KeyableForMap, ToIdDrawable
+abstract class Character(override var imgId:Int, var nom:String): IKeyableForMap, IShowImage
 {
     //must be different for each personnage in a container
     override fun toKey()=nom
-
-    override fun getDrawableId() = imgId
 }
 

@@ -8,8 +8,8 @@ import android.widget.TextView
 import fr.emile.ddmanager.mainClass.Personnage
 import fr.emile.ddmanager.mainClass.Power
 import fr.emile.ddmanager.R
+import fr.emile.ddmanager.game
 import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
-import fr.emile.ddmanager.joueur
 
 class FragmentHeroPower : CustomFragment() {
 
@@ -62,6 +62,7 @@ class FragmentHeroPower : CustomFragment() {
 
     override fun launch() {
 
+        val joueur=game.joueur
         setAdapter(joueur.listPowers.filter
         {
             joueur.levelStat.currentLevel>=it.availableLevel

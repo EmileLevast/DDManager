@@ -4,12 +4,12 @@ import fr.emile.ddmanager.Container
 import fr.emile.ddmanager.R
 
 
-class Monster(imgId:Int,nom:String,var number:Int,var costXp:Int) : Character(imgId,nom),Cloneable{
+class Monster(imgId:Int,nom:String,var number:Int,var costXp:Int) : Character(imgId,nom){
 
 
-    public override fun clone(): Monster {
-        return super.clone() as Monster
-    }
+    /*override fun clone(): Monster {
+        return super<Character>.clone() as Monster
+    }*/
 
     override fun toKey(): String {
         return super.toKey()+number

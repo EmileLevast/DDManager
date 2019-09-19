@@ -2,7 +2,7 @@ package fr.emile.ddmanager.mainClass
 
 import fr.emile.ddmanager.Container
 import fr.emile.ddmanager.R
-import fr.emile.ddmanager.ToIdDrawable
+import fr.emile.ddmanager.IShowImage
 
 /**
  * Created by emile on 10/03/2019.
@@ -16,10 +16,8 @@ class Personnage private constructor(vie:Int,
                                      var listPowers:MutableList<Power>): Character(imgId,nom)
 {
     var levelStat= Level(xpNeededLevel1)
-
     var containerKills= Container<Monster>()
-
-    private var containerStuff= Container<StuffCard>()
+    var containerStuff= Container<StuffCard>()
 
     var vie=vie
     set(value)
@@ -41,7 +39,7 @@ class Personnage private constructor(vie:Int,
     }
 
     //if kill monster is false the player lose xp
-    fun selectMonster(monsterSelected: Monster, killMonster:Boolean)
+    /*fun selectMonster(monsterSelected: Monster, killMonster:Boolean)
     {
         if(killMonster)
         {
@@ -61,30 +59,61 @@ class Personnage private constructor(vie:Int,
             containerKills.remove(monsterSelected)
             levelStat.addXp(monsterSelected.costXp*(-1))
         }
-    }
+    }*/
 
-    fun killMonster(monsterSelected: Monster)
+    /**function called when click on card in Fragment**/
+
+    fun killMonster(monsterSelected: IShowImage)
     {
-        while(containerKills.contains(monsterSelected))monsterSelected.number++
-
-        containerKills.pushFront(monsterSelected)
-
-        //if the player win a level
-        if(levelStat.addXp(monsterSelected.costXp)>=1)
+        if( monsterSelected is Monster)
         {
-            vie+=referenceInitCara.vie/4
+            while(containerKills.contains(monsterSelected))monsterSelected.number++
+
+            containerKills.pushFront(monsterSelected)
+
+            //if the player win a level
+            if(levelStat.addXp(monsterSelected.costXp)>=1)
+            {
+                vie+=referenceInitCara.vie/4
+            }
         }
     }
 
-    fun loseMonsterXp(monsterSelected: Monster)
+    fun loseMonsterXp(monsterSelected: IShowImage)
     {
-        containerKills.remove(monsterSelected)
-        levelStat.addXp(monsterSelected.costXp*(-1))
+        if (monsterSelected is Monster)
+        {
+            containerKills.remove(monsterSelected)
+            levelStat.addXp(monsterSelected.costXp*(-1))
+        }
     }
+
+    fun removeStuffCard(cardToRemove: IShowImage)
+    {
+        if (cardToRemove is StuffCard)
+        {
+            //we need to say it's deleted, the adapter will not draw it when update (because it always has a reference to this card
+            containerStuff[cardToRemove.toKey()]?.isDeleted=true
+            containerStuff.remove(cardToRemove)
+        }
+    }
+
+    fun switchStuffCardIsUsed(cardToRemove: IShowImage)
+    {
+        if (cardToRemove is StuffCard)
+        {
+            containerStuff[cardToRemove.toKey()]?.apply { isUsed=!isUsed }
+        }
+    }
+
+    /********************************************/
 
     fun addStuffCard(newCard: StuffCard)
     {
-        containerStuff.pushFront(newCard)
+        if(!containerStuff.contains(newCard))
+        {
+            containerStuff.pushFront(newCard)
+        }
     }
 
     companion object {
@@ -96,9 +125,9 @@ class Personnage private constructor(vie:Int,
     }
 }
 
-class Power (var idImg:Int,var textExplanation:String,var availableLevel:Int): ToIdDrawable
+class Power (override var imgId:Int, var textExplanation:String, var availableLevel:Int): IShowImage
 {
-    override fun getDrawableId()=idImg
+
 
     companion object {
         val listPowerLidda= mutableListOf(

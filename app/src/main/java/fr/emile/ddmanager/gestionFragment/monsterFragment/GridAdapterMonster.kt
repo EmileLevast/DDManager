@@ -4,20 +4,22 @@ import android.app.Activity
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import fr.emile.ddmanager.mainClass.Monster
 import fr.emile.ddmanager.R
+import fr.emile.ddmanager.IShowImage
 import fr.emile.ddmanager.gestionAffichage.WIDTH_SCREEN
 import fr.emile.ddmanager.calculateRatioWidthHeigth
 import fr.emile.ddmanager.getOnlyIdImage
+import fr.emile.ddmanager.mainClass.StuffCard
 
 
-class GridAdapterMonster(private var activity: Activity, private var characterList: MutableList<Monster>) : ArrayAdapter<Int>(activity, 0, characterList.getOnlyIdImage()) {
+class GridAdapterMonster(activity: Activity, var characterList: MutableList<out IShowImage>) : ArrayAdapter<Int>(activity, 0, characterList.getOnlyIdImage()) {
     //private val characterList: ArrayList<Character>
 
     private val marginBetweenPictures = 10//pixel
@@ -68,16 +70,34 @@ class GridAdapterMonster(private var activity: Activity, private var characterLi
             (viewHolder.imageView!!.drawable as BitmapDrawable).bitmap.recycle()
 
         //viewHolder.getImageView().setImageResource(currentImg);
-        viewHolder.imageView!!.setImageBitmap(decodeSampledBitmapFromResource(currentImg.imgId, widthImg, heightImg))
+        if((currentImg !is StuffCard)  || !currentImg.isDeleted)
+        {
+            viewHolder.imageView!!.setImageBitmap(decodeSampledBitmapFromResource(currentImg.imgId, widthImg, heightImg))
+        }
+        else
+        {
+            //TODO verifier ce que fait cette ligne (elle efface les objets deleted mais est- ce qu'on est sur
+            viewHolder.imageView!!.setImageResource(0)//R.color.transparent)
+        }
         //viewHolder.textPowerDescription!!.setText(currentImg.xpCost)
+
+        //if the image is corresponding to a stuffCard we color his background depending on it isUsed attribute
+        if (currentImg is StuffCard && !currentImg.isDeleted)
+            viewHolder.imageView!!.setBackgroundResource(
+                    when (currentImg.isUsed)
+                    {
+                        true->R.color.strokeButton
+                        else->R.color.transparent
+                    }
+            )
 
         return listItem
     }
 
-    fun setImg(img: List<Monster>) {
+    /*fun setImg(img: List<Monster>) {
         this.characterList.clear()
         this.characterList.addAll(img)
-    }
+    }*/
 
     /*companion object {
         private val TAG = "CustomVIew"

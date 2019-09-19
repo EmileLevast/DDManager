@@ -7,7 +7,7 @@ import android.support.annotation.NonNull
  */
 
 //Interdit de ne donner aucun element a notre container
-class Container<T>(@NonNull vararg listElmt:T) where T: KeyableForMap {
+class Container<T>(@NonNull vararg listElmt:T) where T: IKeyableForMap {
 
     private val listKeyElmt= arrayListOf<String>()
     private val listElmt= hashMapOf<String,T>()
@@ -103,6 +103,9 @@ class Container<T>(@NonNull vararg listElmt:T) where T: KeyableForMap {
         indexUp()
         return listElmt[listKeyElmt[index]]!!
     }
+
+    //TODO erreur ici, car on cree une nouvelle liste et du coup on a pu la reference vers la liste qui est la meme que
+    //pour le perso et du coup quand on supprime un truc il est pas supprimé pour le fragment
 
     //use it when you want to retreive the data as a List
     //it keep the order you gave to create the container

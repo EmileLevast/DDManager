@@ -83,4 +83,12 @@
             android:id="@+id/buttonDeckPicker"
             android:src="@drawable/chest"/>
 
+        <ImageButton
+            style="@style/buttonPerso"
+            android:id="@+id/buttonShowStuff"
+            android:scaleType="centerInside"
+            android:src="@drawable/equipment_icon"/>
+
+
+
 </RelativeLayout>

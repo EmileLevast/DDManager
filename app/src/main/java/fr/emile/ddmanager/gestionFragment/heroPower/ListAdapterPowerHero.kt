@@ -64,7 +64,7 @@ class ListAdapterPowerHero(activity: Activity, private var listPower: MutableLis
             (viewHolder.imageView!!.drawable as BitmapDrawable).bitmap.recycle()
 
         //viewHolder.getImageView().setImageResource(currentImg);
-        viewHolder.imageView!!.setImageBitmap(decodeSampledBitmapFromResource(currentPower.idImg, widthImg, heightImg))
+        viewHolder.imageView!!.setImageBitmap(decodeSampledBitmapFromResource(currentPower.imgId, widthImg, heightImg))
         viewHolder.textPowerDescription!!.text = currentPower.textExplanation
 
         //set Typeface

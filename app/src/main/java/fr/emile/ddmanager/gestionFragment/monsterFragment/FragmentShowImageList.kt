@@ -9,22 +9,22 @@ import fr.emile.ddmanager.MainAcvtivity
 import fr.emile.ddmanager.mainClass.Monster
 import fr.emile.ddmanager.mainClass.Personnage
 import fr.emile.ddmanager.R
+import fr.emile.ddmanager.IShowImage
+import fr.emile.ddmanager.game
 import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
-import fr.emile.ddmanager.joueur
-import fr.emile.ddmanager.mainClass.StuffCard
 
 /**
  * Created by emile on 07/04/2019.
  */
-abstract class FragmentMonsterList : CustomFragment() {
+abstract class FragmentShowImageList : CustomFragment() {
     override val idLayoutToInflate: Int=R.layout.fragment_monster
 
     var gridAdapterMonster: GridAdapterMonster? = null
 
     lateinit var gridView:GridView
 
-    var listToShow:MutableList<Monster>? = null
-    var joueurAction: (Personnage.(Monster) -> Unit)? = null
+    var listToShow:MutableList<out IShowImage>? = null
+    var joueurAction: (Personnage.(IShowImage) -> Unit)? = null
 
     final override fun createView(inflater: LayoutInflater) {
         //nothing to do
@@ -39,7 +39,7 @@ abstract class FragmentMonsterList : CustomFragment() {
         initGridView()
     }
 
-    fun setAdapter(listToShow:MutableList<Monster>)
+    fun setAdapter(listToShow:MutableList<out IShowImage>)
     {
 
         this.listToShow=listToShow
@@ -60,29 +60,52 @@ abstract class FragmentMonsterList : CustomFragment() {
         gridView.adapter = gridAdapterMonster
     }
 
-    private fun initGridView()
+    protected open fun initGridView()
     {
         gridView.onItemClickListener = AdapterView.OnItemClickListener{ _, _, position: Int,_ ->
 
             //get the monster at this position
-            val monsterClicked= listToShow!![position]
+            val imageClicked= listToShow!![position]
 
-            (context as MainAcvtivity).playerSelectMonster(monsterClicked.clone(),joueurAction)
+            (context as MainAcvtivity).playerSelectIShowImage(imageClicked.clone(),joueurAction)
         }
     }
 }
 
-class FragmentListMonsterToKill:FragmentMonsterList() {
+
+class FragmentListMonsterToKill:FragmentShowImageList() {
     override fun launch() {
+
         setAdapter(Monster.containerRef.toListSorted())
         joueurAction= Personnage::killMonster
     }
 }
 
-class FragmentListMonsterKilled:FragmentMonsterList() {
+class FragmentListMonsterKilled:FragmentShowImageList() {
     override fun launch() {
-        setAdapter(joueur.containerKills.toListSorted())
+
+        setAdapter(game.joueur.containerKills.toListSorted())
         joueurAction= Personnage::loseMonsterXp
+    }
+}
+
+class FragmentStuff:FragmentShowImageList(){
+
+    override fun initGridView() {
+        super.initGridView()
+
+        gridView.onItemLongClickListener = AdapterView.OnItemLongClickListener{ _, _, position: Int,_ ->
+
+            //get the monster at this position
+            val imagerClicked= listToShow!![position]
+            (context as MainAcvtivity).playerSelectIShowImage((imagerClicked.clone()),Personnage::removeStuffCard)
+            false
+        }
+    }
+
+    override fun launch() {
+        setAdapter(game.joueur.containerStuff.toListSorted())
+        joueurAction=Personnage::switchStuffCardIsUsed
     }
 }
 
