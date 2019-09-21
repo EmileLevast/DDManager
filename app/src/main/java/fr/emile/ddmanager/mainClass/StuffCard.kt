@@ -1,13 +1,10 @@
 package fr.emile.ddmanager.mainClass
 
-import fr.emile.ddmanager.IKeyableForMap
 import fr.emile.ddmanager.R
-import fr.emile.ddmanager.IShowImage
 
-class StuffCard(val nom:String, val type:StuffType,override var imgId:Int):IKeyableForMap,IShowImage
+class StuffCard(nom:String, val type:StuffType,imgId:Int):Entity(imgId,nom)
 {
     var isUsed=false
-    var isDeleted=false
     override fun toKey()=nom
 
     /*public override fun clone(): StuffCard {

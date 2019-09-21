@@ -20,7 +20,7 @@ import fr.emile.ddmanager.mainClass.StuffCard
 
 
 class GridAdapterMonster(activity: Activity, var characterList: MutableList<out IShowImage>) : ArrayAdapter<Int>(activity, 0, characterList.getOnlyIdImage()) {
-    //private val characterList: ArrayList<Character>
+    //private val characterList: ArrayList<Entity>
 
     private val marginBetweenPictures = 10//pixel
     val nbrColumnGridView=4
@@ -41,7 +41,7 @@ class GridAdapterMonster(activity: Activity, var characterList: MutableList<out 
         var viewHolder = ViewHolder()
 
 
-        val currentImg = characterList[position]
+        val currentImg :IShowImage?= if (characterList.size<=position)null else characterList[position]
 
         //if we are at the beginning convertView is null , we have to inflate it
         if (listItem == null) {
@@ -50,7 +50,7 @@ class GridAdapterMonster(activity: Activity, var characterList: MutableList<out 
             //val textLegend = context.findViewById(R.id.textLegend)
 
             widthImg = (WIDTH_SCREEN!! - 2 * marginBetweenPictures * nbrColumnGridView) / nbrColumnGridView
-            heightImg= (widthImg/calculateRatioWidthHeigth(currentImg.imgId,context)).toInt()
+            heightImg= currentImg?.let{(widthImg/calculateRatioWidthHeigth(currentImg.imgId,context)).toInt()} ?: widthImg
 
             val param = RelativeLayout.LayoutParams(widthImg, heightImg)
             param.setMargins(marginBetweenPictures, marginBetweenPictures, marginBetweenPictures, marginBetweenPictures)
@@ -64,25 +64,32 @@ class GridAdapterMonster(activity: Activity, var characterList: MutableList<out 
             viewHolder = listItem.tag as ViewHolder
         }
 
+        //if (currentImg==null)return convertView
+
+
         //we get the currently image selected
 
         if (viewHolder.imageView!!.drawable != null)
             (viewHolder.imageView!!.drawable as BitmapDrawable).bitmap.recycle()
 
         //viewHolder.getImageView().setImageResource(currentImg);
-        if((currentImg !is StuffCard)  || !currentImg.isDeleted)
+        //if((currentImg !is StuffCard)  || !currentImg.isDeleted)
+        //{
+        if(currentImg !=null)
         {
             viewHolder.imageView!!.setImageBitmap(decodeSampledBitmapFromResource(currentImg.imgId, widthImg, heightImg))
         }
         else
         {
-            //TODO verifier ce que fait cette ligne (elle efface les objets deleted mais est- ce qu'on est sur
-            viewHolder.imageView!!.setImageResource(0)//R.color.transparent)
+            viewHolder.imageView!!.setImageResource(0)
         }
+        //{
+        //    viewHolder.imageView!!.setImageResource(0)//R.color.transparent)
+        //}
         //viewHolder.textPowerDescription!!.setText(currentImg.xpCost)
 
         //if the image is corresponding to a stuffCard we color his background depending on it isUsed attribute
-        if (currentImg is StuffCard && !currentImg.isDeleted)
+        if (currentImg is StuffCard )//&& !currentImg.isDeleted)
             viewHolder.imageView!!.setBackgroundResource(
                     when (currentImg.isUsed)
                     {

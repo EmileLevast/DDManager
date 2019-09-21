@@ -67,7 +67,7 @@ abstract class FragmentShowImageList : CustomFragment() {
             //get the monster at this position
             val imageClicked= listToShow!![position]
 
-            (context as MainAcvtivity).playerSelectIShowImage(imageClicked.clone(),joueurAction)
+            (context as MainAcvtivity).playerSelectIShowImage(imageClicked,joueurAction)
         }
     }
 }
@@ -84,7 +84,7 @@ class FragmentListMonsterToKill:FragmentShowImageList() {
 class FragmentListMonsterKilled:FragmentShowImageList() {
     override fun launch() {
 
-        setAdapter(game.joueur.containerKills.toListSorted())
+        setAdapter(game.joueur.monsterKilled)//.toListSorted())
         joueurAction= Personnage::loseMonsterXp
     }
 }
@@ -98,13 +98,13 @@ class FragmentStuff:FragmentShowImageList(){
 
             //get the monster at this position
             val imagerClicked= listToShow!![position]
-            (context as MainAcvtivity).playerSelectIShowImage((imagerClicked.clone()),Personnage::removeStuffCard)
-            false
+            (context as MainAcvtivity).playerSelectIShowImage(imagerClicked,Personnage::removeStuffCard)
+            true
         }
     }
 
     override fun launch() {
-        setAdapter(game.joueur.containerStuff.toListSorted())
+        setAdapter(game.joueur.equipment)//.toListSorted())
         joueurAction=Personnage::switchStuffCardIsUsed
     }
 }

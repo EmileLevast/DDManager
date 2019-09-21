@@ -2,6 +2,7 @@ package fr.emile.ddmanager
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import fr.emile.ddmanager.gestionAffichage.Affichage
 import fr.emile.ddmanager.mainClass.Personnage
 import fr.emile.ddmanager.gestionFragment.FragmentGenerate
@@ -36,6 +37,7 @@ class MainAcvtivity : AppCompatActivity() {
         )
 
         changeToNextPersonnage()
+
     }
 
     fun updateStatJoueurWithGridView(mana:Int,vie:Int)
@@ -59,12 +61,12 @@ class MainAcvtivity : AppCompatActivity() {
     fun playerSelectIShowImage(imageClicked: IShowImage, joueurAction: (Personnage.(IShowImage) -> Unit)?)
     {
         joueurAction?.let { game.joueur.it(imageClicked) }
-        //updateUi()
+        updateUi()
 
         //don't delete the fragment if it's the stuff
         if(imageClicked is StuffCard)
         {
-            //fragGenerator.updateAdapter(game.joueur.containerStuff.toListSorted())
+            //fragGenerator.updateAdapter(game.joueur.equipment.toListSorted())
             fragGenerator.updateFrag()
         }else
         {

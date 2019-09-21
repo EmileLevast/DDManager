@@ -13,11 +13,11 @@ class Personnage private constructor(vie:Int,
                                      xpNeededLevel1:Int,
                                      imgId:Int,
                                      nom:String,
-                                     var listPowers:MutableList<Power>): Character(imgId,nom)
+                                     var listPowers:MutableList<Power>): Entity(imgId,nom)
 {
     var levelStat= Level(xpNeededLevel1)
-    var containerKills= Container<Monster>()
-    var containerStuff= Container<StuffCard>()
+    var monsterKilled= mutableListOf<Monster>()//Container<Monster>()
+    var equipment= mutableListOf<StuffCard>()//Container<StuffCard>()
 
     var vie=vie
     set(value)
@@ -38,28 +38,6 @@ class Personnage private constructor(vie:Int,
         referenceInitCara=persoRef
     }
 
-    //if kill monster is false the player lose xp
-    /*fun selectMonster(monsterSelected: Monster, killMonster:Boolean)
-    {
-        if(killMonster)
-        {
-            //there is already a monster with this name we change his number
-            while(containerKills.contains(monsterSelected))monsterSelected.number++
-
-            containerKills.pushFront(monsterSelected)
-
-            //if the player win a level
-            if(levelStat.addXp(monsterSelected.costXp)>=1)
-            {
-                vie+=referenceInitCara.vie/4
-            }
-
-        }else
-        {
-            containerKills.remove(monsterSelected)
-            levelStat.addXp(monsterSelected.costXp*(-1))
-        }
-    }*/
 
     /**function called when click on card in Fragment**/
 
@@ -67,9 +45,9 @@ class Personnage private constructor(vie:Int,
     {
         if( monsterSelected is Monster)
         {
-            while(containerKills.contains(monsterSelected))monsterSelected.number++
+            while(monsterKilled.contains(monsterSelected))monsterSelected.number++
 
-            containerKills.pushFront(monsterSelected)
+            monsterKilled.add(0,monsterSelected)//pushFront(monsterSelected)
 
             //if the player win a level
             if(levelStat.addXp(monsterSelected.costXp)>=1)
@@ -83,7 +61,7 @@ class Personnage private constructor(vie:Int,
     {
         if (monsterSelected is Monster)
         {
-            containerKills.remove(monsterSelected)
+            monsterKilled.remove(monsterSelected)
             levelStat.addXp(monsterSelected.costXp*(-1))
         }
     }
@@ -93,16 +71,19 @@ class Personnage private constructor(vie:Int,
         if (cardToRemove is StuffCard)
         {
             //we need to say it's deleted, the adapter will not draw it when update (because it always has a reference to this card
-            containerStuff[cardToRemove.toKey()]?.isDeleted=true
-            containerStuff.remove(cardToRemove)
+            //equipment[cardToRemove.toKey()]?.isDeleted=true
+            //equipment[equipment.indexOf(cardToRemove)].isDeleted=true
+            equipment.remove(cardToRemove)
         }
     }
 
-    fun switchStuffCardIsUsed(cardToRemove: IShowImage)
+    fun switchStuffCardIsUsed(cardToSwitch: IShowImage)
     {
-        if (cardToRemove is StuffCard)
+        if (cardToSwitch is StuffCard)
         {
-            containerStuff[cardToRemove.toKey()]?.apply { isUsed=!isUsed }
+            cardToSwitch.apply { isUsed=!isUsed }
+            //equipment[cardToSwitch.toKey()]?.apply { isUsed=!isUsed }
+            //equipment[equipment.indexOf(cardToSwitch)].apply{isUsed=!isUsed}
         }
     }
 
@@ -110,9 +91,9 @@ class Personnage private constructor(vie:Int,
 
     fun addStuffCard(newCard: StuffCard)
     {
-        if(!containerStuff.contains(newCard))
+        if(!equipment.contains(newCard))
         {
-            containerStuff.pushFront(newCard)
+            equipment.add(0,newCard)//.pushFront(newCard)
         }
     }
 
