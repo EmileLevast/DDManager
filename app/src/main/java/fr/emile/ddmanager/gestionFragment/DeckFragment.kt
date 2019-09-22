@@ -54,7 +54,7 @@ class DeckFragment : CustomFragment()
     }
 
     override fun launch() {
-        card=StuffCard.CardReference.random()
+        card=game.piocher()
     }
 
     companion object {

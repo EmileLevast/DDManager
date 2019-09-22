@@ -4,7 +4,7 @@ import fr.emile.ddmanager.Container
 
 class Game {
 
-    //TODO ajouter une pioche qui contient les elements restants
+    private lateinit var deck: MutableList<StuffCard>
 
     val currentPlayedPerso= Container(
             Personnage(Personnage.containerRef.getEltWith("Regdar")!!),
@@ -15,6 +15,11 @@ class Game {
     var joueur:Personnage=currentPlayedPerso.getItemNext()
     private set
 
+    init {
+        //initialiser la pioche
+        creerPioche()
+    }
+
     fun changePerso()
     {
         joueur=currentPlayedPerso.getItemNext()
@@ -23,5 +28,25 @@ class Game {
     fun playerPickCard(card: StuffCard)
     {
         joueur.addStuffCard(card.clone() as StuffCard)
+    }
+
+    fun piocher():StuffCard?
+    {
+        //si la pioche est pas vide on donne une carte mais on l'enleve de la pioche
+        return if(deck.isEmpty())
+        {
+            creerPioche()
+            piocher()
+        }
+        else {
+            deck.random().also{deck.remove(it)}
+        }
+
+    }
+
+    private fun creerPioche()
+    {
+        //on ajoute toutes les cartes que j'ai dans StuffCard et son companion object
+        deck= mutableListOf<StuffCard>().apply{addAll(StuffCard.CardReference)}
     }
 }

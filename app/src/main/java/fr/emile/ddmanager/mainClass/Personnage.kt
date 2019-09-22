@@ -95,18 +95,22 @@ class Personnage private constructor(vie:Int,
         //si on a toujours la carte a donner
         if( persoReceiver is Personnage && cardToGiveToAnOtherPlayer!=null && equipment.contains(cardToGiveToAnOtherPlayer!!))
         {
-            persoReceiver.addStuffCard(cardToGiveToAnOtherPlayer!!)
-            removeStuffCard(cardToGiveToAnOtherPlayer!!)
+            //on supprime la carte que si l'ajout a bien pu se faire
+            if(persoReceiver.addStuffCard(cardToGiveToAnOtherPlayer!!))
+                removeStuffCard(cardToGiveToAnOtherPlayer!!)
         }
     }
     /********************************************/
 
-    fun addStuffCard(newCard: StuffCard)
+    fun addStuffCard(newCard: StuffCard):Boolean
     {
-        if(!equipment.contains(newCard))
+        //si la carte n'est pas presente on renvoit true et la carte est ajoutee
+        return if(!equipment.contains(newCard))
         {
             equipment.add(0,newCard)//.pushFront(newCard)
-        }
+            true
+        }else
+            false
     }
 
     companion object {
