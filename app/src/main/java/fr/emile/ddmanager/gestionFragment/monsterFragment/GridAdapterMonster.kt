@@ -19,11 +19,10 @@ import fr.emile.ddmanager.getOnlyIdImage
 import fr.emile.ddmanager.mainClass.StuffCard
 
 
-class GridAdapterMonster(activity: Activity, var characterList: MutableList<out IShowImage>) : ArrayAdapter<Int>(activity, 0, characterList.getOnlyIdImage()) {
+class GridAdapterMonster(activity: Activity, var characterList: MutableList<out IShowImage>,val nbrColumnGridView:Int) : ArrayAdapter<Int>(activity, 0, characterList.getOnlyIdImage()) {
     //private val characterList: ArrayList<Entity>
 
     private val marginBetweenPictures = 10//pixel
-    val nbrColumnGridView=4
 
     private var widthImg = 0
     private var heightImg = 0

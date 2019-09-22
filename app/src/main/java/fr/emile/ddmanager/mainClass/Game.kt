@@ -6,7 +6,7 @@ class Game {
 
     //TODO ajouter une pioche qui contient les elements restants
 
-    private val currentPlayedPerso= Container(
+    val currentPlayedPerso= Container(
             Personnage(Personnage.containerRef.getEltWith("Regdar")!!),
             Personnage(Personnage.containerRef.getEltWith("Jozan")!!),
             Personnage(Personnage.containerRef.getEltWith("Lidda")!!),

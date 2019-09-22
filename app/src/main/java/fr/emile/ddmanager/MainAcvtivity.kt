@@ -7,6 +7,7 @@ import fr.emile.ddmanager.gestionAffichage.Affichage
 import fr.emile.ddmanager.mainClass.Personnage
 import fr.emile.ddmanager.gestionFragment.FragmentGenerate
 import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
+import fr.emile.ddmanager.gestionFragment.monsterFragment.FragmentListPerso
 import fr.emile.ddmanager.mainClass.Game
 import fr.emile.ddmanager.mainClass.StuffCard
 import kotlinx.android.synthetic.main.activity_main.*
@@ -73,6 +74,14 @@ class MainAcvtivity : AppCompatActivity() {
             supportFragmentManager.popBackStack()
 
         }
+    }
+
+    fun playerGiveStuffCard(imageClicked: StuffCard)
+    {
+        supportFragmentManager.popBackStack()
+        generateFrag(FragmentListPerso())
+        game.joueur.cardToGiveToAnOtherPlayer=imageClicked
+        //fragGenerator.updateFrag()
     }
 
     fun generateFrag(fragToGenerate:CustomFragment)

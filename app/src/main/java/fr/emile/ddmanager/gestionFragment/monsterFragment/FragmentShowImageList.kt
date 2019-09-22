@@ -12,12 +12,16 @@ import fr.emile.ddmanager.R
 import fr.emile.ddmanager.IShowImage
 import fr.emile.ddmanager.game
 import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
+import fr.emile.ddmanager.mainClass.StuffCard
 
 /**
  * Created by emile on 07/04/2019.
  */
 abstract class FragmentShowImageList : CustomFragment() {
     override val idLayoutToInflate: Int=R.layout.fragment_monster
+
+    //value to give the number of column in the grid view
+    open val nbrColumnGridView=4
 
     var gridAdapterMonster: GridAdapterMonster? = null
 
@@ -55,7 +59,7 @@ abstract class FragmentShowImageList : CustomFragment() {
     //instantiate listToShow before this method
     private fun initAdapter()
     {
-        gridAdapterMonster = GridAdapterMonster(context as Activity, listToShow!!)
+        gridAdapterMonster = GridAdapterMonster(context as Activity, listToShow!!,nbrColumnGridView)
         gridView.numColumns = gridAdapterMonster!!.nbrColumnGridView
         gridView.adapter = gridAdapterMonster
     }
@@ -89,6 +93,16 @@ class FragmentListMonsterKilled:FragmentShowImageList() {
     }
 }
 
+class FragmentListPerso:FragmentShowImageList() {
+    override val nbrColumnGridView=2
+
+    override fun launch() {
+
+        setAdapter(game.currentPlayedPerso.toListSorted())
+        joueurAction= Personnage::giveStuffCard
+    }
+}
+
 class FragmentStuff:FragmentShowImageList(){
 
     override fun initGridView() {
@@ -98,7 +112,14 @@ class FragmentStuff:FragmentShowImageList(){
 
             //get the monster at this position
             val imagerClicked= listToShow!![position]
-            (context as MainAcvtivity).playerSelectIShowImage(imagerClicked,Personnage::removeStuffCard)
+
+            //we want to do 2 dofferent things : if the card is used we give it to another player if not we delete it
+            if(imagerClicked is StuffCard) {
+                when (imagerClicked.isUsed) {
+                    false -> (context as MainAcvtivity).playerSelectIShowImage(imagerClicked, Personnage::removeStuffCard)
+                    true -> (context as MainAcvtivity).playerGiveStuffCard(imagerClicked)
+                }
+            }
             true
         }
     }

@@ -29,6 +29,9 @@ class Personnage private constructor(vie:Int,
                 }
     }
 
+    //used to save the card from the stuff of this player that he wants to give
+    var cardToGiveToAnOtherPlayer:StuffCard?=null
+
     //just null for the companion object
     lateinit var referenceInitCara: Personnage
 
@@ -87,6 +90,15 @@ class Personnage private constructor(vie:Int,
         }
     }
 
+    fun giveStuffCard(persoReceiver:IShowImage)
+    {
+        //si on a toujours la carte a donner
+        if( persoReceiver is Personnage && cardToGiveToAnOtherPlayer!=null && equipment.contains(cardToGiveToAnOtherPlayer!!))
+        {
+            persoReceiver.addStuffCard(cardToGiveToAnOtherPlayer!!)
+            removeStuffCard(cardToGiveToAnOtherPlayer!!)
+        }
+    }
     /********************************************/
 
     fun addStuffCard(newCard: StuffCard)
@@ -160,7 +172,7 @@ class Power (override var imgId:Int, var textExplanation:String, var availableLe
                 Power(R.drawable.spell_symbol, "les sorts coutent un point de moins de mana a jozan", 3),
                 Power(R.drawable.undead_symbol, "jozan inflige 2 pts de degats supplementaires aux morts-vivants", 3),
 
-                Power(R.drawable.skeleton_hand, "le renvoi de morts-vivants ne coute plus d'action pour jozan mais seulement 2 renvois max par tour.", 4),
+                Power(R.drawable.skeleton_hand, "le renvoi de morts-vivants ne coute plus d'action pour jozan mais seulement 1 renvoi par tour.", 4),
                 Power(R.drawable.resurrection_symbol, "si jozan depense 2 pts de mana ou plus en meme temps pour soigner un heros (dont lui-meme)," +
                         " celui-ci recupere 1 pt de vie supplementaire.", 4),
 
