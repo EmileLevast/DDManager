@@ -16,6 +16,7 @@ class DeckFragment : CustomFragment()
     var card: StuffCard?=null
     private var height:Int=0
     private var width:Int=0
+    private var yesButton:Button?=null
     private lateinit var layout:RelativeLayout
 
     override val idLayoutToInflate: Int= R.layout.card_from_deck
@@ -29,10 +30,13 @@ class DeckFragment : CustomFragment()
         layout=activity?.findViewById(R.id.deckRootLayout)!!
 
         //implement the things to do when click on "Prendre"
-        activity?.findViewById<Button>(R.id.buttonYes)?.setOnClickListener{
-            activity?.supportFragmentManager?.popBackStack()
-            game.playerPickCard(card!!)
+        yesButton=activity?.findViewById<Button>(R.id.buttonYes)?.apply{
+            setOnClickListener{
+                activity?.supportFragmentManager?.popBackStack()
+                game.playerPickCard(card!!)
+            }
         }
+
 
         //implement the things to do when click on "Jeter"
         activity?.findViewById<Button>(R.id.buttonNo)?.setOnClickListener {
@@ -51,10 +55,13 @@ class DeckFragment : CustomFragment()
         //prevent more click on the chest
         layout.setOnTouchListener{ _, _ -> true }
 
+        yesButton?.isEnabled = card?.type != StuffCard.StuffType.TRAP
+
     }
 
     override fun launch() {
         card=game.piocher()
+        //si on a picohé un piege on desactive le bouton yes
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package fr.emile.ddmanager.mainClass
 
 import fr.emile.ddmanager.Container
+import fr.emile.ddmanager.R
 
 class Game {
 
@@ -39,14 +40,21 @@ class Game {
             piocher()
         }
         else {
-            deck.random().also{deck.remove(it)}
+            deck.first().also{deck.remove(it)}
         }
+
+
 
     }
 
     private fun creerPioche()
     {
         //on ajoute toutes les cartes que j'ai dans StuffCard et son companion object
-        deck= mutableListOf<StuffCard>().apply{addAll(StuffCard.CardReference)}
+        deck= mutableListOf<StuffCard>().apply{
+            addAll(StuffCard.CardReference)
+
+            //on melange la pioche
+            shuffle()
+        }
     }
 }
