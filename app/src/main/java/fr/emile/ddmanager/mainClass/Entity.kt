@@ -12,7 +12,7 @@ abstract class Entity(override var imgId:Int, var nom:String): IKeyableForMap, I
     override fun equals(other: Any?): Boolean {
         return when {
             this===other -> true
-            (other as? Entity)?.nom==this.nom -> true
+            (other as? Entity)?.toKey()==this.toKey() -> true
             else -> false
         }
     }

@@ -46,16 +46,20 @@ class Personnage private constructor(vie:Int,
 
     fun killMonster(monsterSelected: IShowImage)
     {
-        if( monsterSelected is Monster)
-        {
-            while(monsterKilled.contains(monsterSelected))monsterSelected.number++
+        //here we clone the monster because it must be a different card when we will add it to the list of killed mosnter
+        val monsterSelectedClone=monsterSelected.clone()
 
-            monsterKilled.add(0,monsterSelected)//pushFront(monsterSelected)
+        if( monsterSelectedClone is Monster)
+        {
+            //we search if there is already a monster of this kind and we adapt the name by add 1 to it "gnoll1","gnoll2"
+            while(monsterKilled.contains(monsterSelectedClone))monsterSelectedClone.number++
+
+            monsterKilled.add(0,monsterSelectedClone)//pushFront(monsterSelected)
 
             //if the player win a level
-            if(levelStat.addXp(monsterSelected.costXp)>=1)
+            if(levelStat.addXp(monsterSelectedClone.costXp)>=1)
             {
-                vie+=referenceInitCara.vie/4
+                vie+=(referenceInitCara.vie*ratioGainLifeWhenChangeLevel).toInt()
             }
         }
     }
@@ -73,9 +77,6 @@ class Personnage private constructor(vie:Int,
     {
         if (cardToRemove is StuffCard)
         {
-            //we need to say it's deleted, the adapter will not draw it when update (because it always has a reference to this card
-            //equipment[cardToRemove.toKey()]?.isDeleted=true
-            //equipment[equipment.indexOf(cardToRemove)].isDeleted=true
             equipment.remove(cardToRemove)
         }
     }
@@ -114,6 +115,8 @@ class Personnage private constructor(vie:Int,
     }
 
     companion object {
+        val ratioGainLifeWhenChangeLevel=0.25f
+
         val containerRef= Container(
                 Personnage(15, 0, 36, R.drawable.regdardescriptioncard, "Regdar", Power.listPowerRegdar),
                 Personnage(10, 0, 20, R.drawable.liddadescriptioncard, "Lidda", Power.listPowerLidda),
