@@ -2,7 +2,7 @@ package fr.emile.ddmanager
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.GridLayout
 import android.widget.TextView

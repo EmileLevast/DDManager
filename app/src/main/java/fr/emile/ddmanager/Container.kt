@@ -1,25 +1,31 @@
 package fr.emile.ddmanager
 
-import android.support.annotation.NonNull
+import androidx.room.Entity
+
 
 /**
  * Created by emile on 10/03/2019.
  */
 
 //Interdit de ne donner aucun element a notre container
-class Container<T>(@NonNull vararg listElmt:T) where T: IKeyableForMap {
 
-    private val listKeyElmt= arrayListOf<String>()
-    private val listElmt= hashMapOf<String,T>()
+class Container<T:IKeyableForMap>(listElmt: MutableList<T>?){
+
+    var listKeyElmt= mutableListOf<String>()
+    var listElmt= hashMapOf<String,T>()
     var index=0
 
     init {
         //we save the object passed in constructor in our list
-        for( item in listElmt)
-        {
-            add(item)
+        if (listElmt != null) {
+            for( item in listElmt) {
+                add(item)
+            }
         }
     }
+
+    constructor(vararg listElmt:T):this(listElmt.toList() as MutableList<T>)
+    constructor():this(null)
 
     fun add(newElmt:T)
     {
@@ -104,9 +110,6 @@ class Container<T>(@NonNull vararg listElmt:T) where T: IKeyableForMap {
         return listElmt[listKeyElmt[index]]!!
     }
 
-    //TODO erreur ici, car on cree une nouvelle liste et du coup on a pu la reference vers la liste qui est la meme que
-    //pour le perso et du coup quand on supprime un truc il est pas supprimé pour le fragment
-
     //use it when you want to retreive the data as a List
     //it keep the order you gave to create the container
     fun toListSorted():MutableList<T>
@@ -117,6 +120,5 @@ class Container<T>(@NonNull vararg listElmt:T) where T: IKeyableForMap {
         }
         return listRes
     }
-
 
 }

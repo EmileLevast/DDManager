@@ -1,7 +1,7 @@
 package fr.emile.ddmanager.gestionFragment
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
+import android.app.AlertDialog
+import android.content.DialogInterface
 import fr.emile.ddmanager.IShowImage
 import fr.emile.ddmanager.MainAcvtivity
 import fr.emile.ddmanager.R
@@ -16,24 +16,47 @@ class FragmentGenerate
     fun createFrag(frag:CustomFragment,activity: MainAcvtivity)
     {
         fragGenerated=frag
-        var ft=activity.supportFragmentManager.beginTransaction()
+        val ft=activity.supportFragmentManager.beginTransaction()
         //fragmentLauncher
 
-        ft.finish(frag)
+//        ft.finish(frag)
+        ft.add(R.id.ecran,frag)
+        ft.addToBackStack(null)
+        ft.commit()
     }
 
-    private fun FragmentTransaction.finish(frag:Fragment)
+    /*private fun FragmentTransaction.finish(frag:Fragment)
     {
         add(R.id.ecran,frag)
         addToBackStack(null)
         commit()
-    }
+    }*/
 
     fun updateFrag()
     {
         (fragGenerated as? FragmentShowImageList)?.gridAdapterMonster?.notifyDataSetChanged()
     }
 
+    fun createAlertDialog(activity: MainAcvtivity,yesAction:()->Unit,noAction:()->Unit) {
+        //val alertDialog: AlertDialog? =
+            val builder = AlertDialog.Builder(activity)
+            builder.apply {
+                setPositiveButton("Yes"
+                ) { _, _ ->
+                    yesAction()
+                }
+                setNegativeButton("Cancel"
+                ) { _, _ ->
+                    noAction()
+                }
+            }
+
+            builder.setMessage("Sure you want to delete this card ?")
+            // Create the AlertDialog
+            builder.create().show()
+
+
+    }
     /*fun updateAdapter(characterList: MutableList<out IShowImage>)
     {
         (fragGenerated as? FragmentShowImageList)?.gridAdapterMonster?.characterList=characterList

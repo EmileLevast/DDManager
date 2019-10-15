@@ -19,6 +19,7 @@ class ButtonManager(activity: MainAcvtivity){
     var buttonShowPower: ImageButton=activity.findViewById(R.id.buttonshowPower)
     var buttonDeckPicker: ImageButton=activity.findViewById(R.id.buttonDeckPicker)
     var buttonShowStuff:ImageButton=activity.findViewById(R.id.buttonShowStuff)
+    var buttonResurrection:ImageButton=activity.findViewById(R.id.buttonResurrection)
 
 
     init {
@@ -27,6 +28,10 @@ class ButtonManager(activity: MainAcvtivity){
         buttonShowPower.associateFragment(FragmentHeroPower(),activity)
         buttonDeckPicker.associateFragment(DeckFragment(),activity)
         buttonShowStuff.associateFragment(FragmentStuff(),activity)
+
+        buttonResurrection.setOnClickListener {
+            activity.personnageResurrection()
+        }
     }
 
     private fun ImageButton.associateFragment(fragToAssociate:CustomFragment, activity: MainAcvtivity)
@@ -42,6 +47,7 @@ class ButtonManager(activity: MainAcvtivity){
         setDimensionButtonPersonnage(8,0,buttonShowPower)
         setDimensionButtonPersonnage(8,1,buttonDeckPicker)
         setDimensionButtonPersonnage(8,2,buttonShowStuff)
+        setDimensionButtonPersonnage(1,2,buttonResurrection)
     }
 
     private fun setDimensionButtonPersonnage(posX:Int,posY:Int,buttonToSet: View)

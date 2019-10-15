@@ -10,6 +10,7 @@ import fr.emile.ddmanager.game
 import fr.emile.ddmanager.gestionAffichage.WIDTH_SCREEN
 import fr.emile.ddmanager.mainClass.StuffCard
 import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
+import fr.emile.ddmanager.mainClass.StuffType
 
 class DeckFragment : CustomFragment()
 {
@@ -55,7 +56,7 @@ class DeckFragment : CustomFragment()
         //prevent more click on the chest
         layout.setOnTouchListener{ _, _ -> true }
 
-        yesButton?.isEnabled = card?.type != StuffCard.StuffType.TRAP
+        yesButton?.isEnabled = card?.type != StuffType.TRAP
 
     }
 

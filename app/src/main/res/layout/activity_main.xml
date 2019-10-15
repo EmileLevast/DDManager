@@ -85,6 +85,11 @@
 
         <ImageButton
             style="@style/buttonPerso"
+            android:id="@+id/buttonResurrection"
+            android:src="@drawable/icon_resurrection"/>
+
+        <ImageButton
+            style="@style/buttonPerso"
             android:id="@+id/buttonShowStuff"
             android:src="@drawable/equipment_icon"/>
 

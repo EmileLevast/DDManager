@@ -3,13 +3,11 @@ package fr.emile.ddmanager.mainClass
 
 private const val FACTOR_BY_LEVEL=40
 
-class Level(val xpNeededLevel1:Int) {
+class Level(var xpNeededLevel1:Int) {
 
 
     var currentLevel: Int = 0
-        private set
     var xp: Int = 0
-        private set
 
     init {
         currentLevel = 1
@@ -55,5 +53,7 @@ class Level(val xpNeededLevel1:Int) {
         return (currentLevel-1)* FACTOR_BY_LEVEL + xpNeededLevel1
     }
 
+
+    constructor():this(0)//only for Room
 
 }

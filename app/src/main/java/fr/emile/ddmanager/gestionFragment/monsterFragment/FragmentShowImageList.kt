@@ -111,13 +111,13 @@ class FragmentStuff:FragmentShowImageList(){
         gridView.onItemLongClickListener = AdapterView.OnItemLongClickListener{ _, _, position: Int,_ ->
 
             //get the monster at this position
-            val imagerClicked= listToShow!![position]
+            val imageClicked= listToShow!![position]
 
             //we want to do 2 dofferent things : if the card is used we give it to another player if not we delete it
-            if(imagerClicked is StuffCard) {
-                when (imagerClicked.isUsed) {
-                    false -> (context as MainAcvtivity).playerSelectIShowImage(imagerClicked, Personnage::removeStuffCard)
-                    true -> (context as MainAcvtivity).playerGiveStuffCard(imagerClicked)
+            if(imageClicked is StuffCard) {
+                when (imageClicked.isUsed) {
+                    false -> (context as MainAcvtivity).playerWantDeleteStuffCard(imageClicked)//playerSelectIShowImage(imagerClicked, Personnage::removeStuffCard)
+                    true -> (context as MainAcvtivity).playerGiveStuffCard(imageClicked)
                 }
             }
             true

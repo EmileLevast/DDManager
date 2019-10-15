@@ -1,20 +1,27 @@
 package fr.emile.ddmanager.mainClass
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import fr.emile.ddmanager.Container
-import fr.emile.ddmanager.R
 
+@Entity
 class Game {
 
-    private lateinit var deck: MutableList<StuffCard>
+    @PrimaryKey(autoGenerate = true)
+    var id:Int?=null
 
-    val currentPlayedPerso= Container(
-            Personnage(Personnage.containerRef.getEltWith("Regdar")!!),
-            Personnage(Personnage.containerRef.getEltWith("Jozan")!!),
-            Personnage(Personnage.containerRef.getEltWith("Lidda")!!),
-            Personnage(Personnage.containerRef.getEltWith("Myalië")!!))
+    lateinit var deck: MutableList<StuffCard>
 
+    var currentPlayedPerso= Container(
+            Personnage(PersoReference.containerRef.getEltWith("Regdar")!!),
+            Personnage(PersoReference.containerRef.getEltWith("Jozan")!!),
+            Personnage(PersoReference.containerRef.getEltWith("Lidda")!!),
+            Personnage(PersoReference.containerRef.getEltWith("Myalië")!!))
+
+    @Ignore
     var joueur:Personnage=currentPlayedPerso.getItemNext()
-    private set
 
     init {
         //initialiser la pioche
@@ -51,7 +58,7 @@ class Game {
     {
         //on ajoute toutes les cartes que j'ai dans StuffCard et son companion object
         deck= mutableListOf<StuffCard>().apply{
-            addAll(StuffCard.CardReference)
+            addAll(StuffCard.CardReference.toListSorted())
 
             //on melange la pioche
             shuffle()

@@ -15,6 +15,8 @@ class Monster(imgId:Int,nom:String,var number:Int,var costXp:Int) : Entity(imgId
         return super.toKey()+number
     }
 
+    constructor():this(0,"monster_Unknown",0,0)//only for Room
+
     companion object {
         val containerRef= Container(
                 Monster(R.drawable.gobelincard, "Gobelin", 1, 8),

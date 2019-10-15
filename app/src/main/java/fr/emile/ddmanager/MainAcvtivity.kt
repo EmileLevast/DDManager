@@ -1,9 +1,9 @@
 package fr.emile.ddmanager
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import fr.emile.ddmanager.gestionAffichage.Affichage
+import fr.emile.ddmanager.gestionBDD.AppDatabase
 import fr.emile.ddmanager.mainClass.Personnage
 import fr.emile.ddmanager.gestionFragment.FragmentGenerate
 import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
@@ -15,17 +15,21 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 //lateinit var joueur: Personnage
-var game=Game()
+lateinit var game:Game
 
 
 class MainAcvtivity : AppCompatActivity() {
     lateinit var affichage: Affichage
     var fragGenerator:FragmentGenerate= FragmentGenerate()
-
+    var bdd:AppDatabase?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //game=Game()
+        bdd=AppDatabase.getInstance(this)
+        createGame()
 
         affichage= Affichage(
                 this,
@@ -49,8 +53,8 @@ class MainAcvtivity : AppCompatActivity() {
 
     fun changeToNextPersonnage()
     {
-        //joueur= currentPlayedPerso.getItemNext()
         game.changePerso()
+        saveGame()
         updateUi()
     }
 
@@ -81,13 +85,52 @@ class MainAcvtivity : AppCompatActivity() {
         supportFragmentManager.popBackStack()
         generateFrag(FragmentListPerso())
         game.joueur.cardToGiveToAnOtherPlayer=imageClicked
-        //fragGenerator.updateFrag()
+    }
+
+    fun playerWantDeleteStuffCard(imageClicked: StuffCard)
+    {
+        fragGenerator.createAlertDialog(this,
+                {
+                    //if the player click on yes , so we delete teh card
+                    game.joueur.removeStuffCard(imageClicked)
+                    fragGenerator.updateFrag()
+            },
+                {
+                    //we do nothing if he doesn't want to delete the card
+             })
     }
 
     fun generateFrag(fragToGenerate:CustomFragment)
     {
         fragToGenerate.launch()
         fragGenerator.createFrag(fragToGenerate,this)
+    }
+
+    fun personnageResurrection()
+    {
+        game.joueur.initStuff()
+        updateUi()
+    }
+
+    /**
+     * we search in the database if there is a previous game registered
+     */
+    fun createGame()
+    {
+        val registeredGames= bdd?.gameDao()?.loadAllGames()
+
+        game= if(  registeredGames!=null && !registeredGames.isEmpty())
+            {
+                registeredGames[0]
+            }else
+            {
+                Game()
+            }
+    }
+
+    fun saveGame()
+    {
+        bdd?.gameDao()?.insertGames(game)
     }
 
 }

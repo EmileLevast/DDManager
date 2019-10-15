@@ -1,5 +1,6 @@
 package fr.emile.ddmanager.mainClass
 
+import androidx.room.Embedded
 import fr.emile.ddmanager.Container
 import fr.emile.ddmanager.R
 import fr.emile.ddmanager.IShowImage
@@ -8,129 +9,124 @@ import fr.emile.ddmanager.IShowImage
  * Created by emile on 10/03/2019.
  */
 
-class Personnage private constructor(vie:Int,
-                                     var mana:Int,
-                                     xpNeededLevel1:Int,
-                                     imgId:Int,
-                                     nom:String,
-                                     var listPowers:MutableList<Power>): Entity(imgId,nom)
-{
-    var levelStat= Level(xpNeededLevel1)
-    var monsterKilled= mutableListOf<Monster>()//Container<Monster>()
-    var equipment= mutableListOf<StuffCard>()//Container<StuffCard>()
+//only used to construct the reference
+class Personnage (persoRef: PersoReference): Entity(persoRef.imgId,persoRef.nom) {
 
-    var vie=vie
-    set(value)
-    {
-        field = when {
-                    value<0 -> 0
-                    value>referenceInitCara.vie -> referenceInitCara.vie
-                    else -> value
-                }
-    }
+    var mana:Int=persoRef.mana
+
+    var listPowers:List<Power> = persoRef.listPowers
+
+    @Embedded
+    var levelStat = Level(persoRef.xpNeededLevel1)
+
+    var monsterKilled = mutableListOf<Monster>()
+
+    var equipment = mutableListOf<StuffCard>()
 
     //used to save the card from the stuff of this player that he wants to give
-    var cardToGiveToAnOtherPlayer:StuffCard?=null
+    @Embedded(prefix = "cardTogive")
+    var cardToGiveToAnOtherPlayer: StuffCard? = null
 
-    //just null for the companion object
-    lateinit var referenceInitCara: Personnage
+    var referenceInitCara=persoRef
 
-    constructor(persoRef: Personnage):this(persoRef.vie,persoRef.mana,persoRef.levelStat.xpNeededLevel1,
-            persoRef.imgId,persoRef.nom, persoRef.listPowers.toMutableList())
-    {
-        referenceInitCara=persoRef
+    var vie = persoRef.vie
+        set(value) {
+            field = when {
+                value < 0 -> 0
+                value > referenceInitCara.vie -> referenceInitCara.vie
+                else -> value
+            }
+        }
+
+    init {
+        initStuff()
+    }
+
+    //constructor for Room only
+    constructor() : this(PersoReference.containerRef[0]!!)//nom = "Unknown", listPowers = mutableListOf<Power>())
+
+    fun initStuff() {
+        equipment.clear()
+
+        for (BasicStuffToAdd in referenceInitCara.listEquipment) {
+            //if we found the stuff we add it
+            StuffCard.CardReference[BasicStuffToAdd]?.let { equipment.add(it.clone() as StuffCard) }
+        }
+        //equipment.addAll(referenceInitCara.listEquipment)
     }
 
 
     /**function called when click on card in Fragment**/
 
-    fun killMonster(monsterSelected: IShowImage)
-    {
+    fun killMonster(monsterSelected: IShowImage) {
         //here we clone the monster because it must be a different card when we will add it to the list of killed mosnter
-        val monsterSelectedClone=monsterSelected.clone()
+        val monsterSelectedClone = monsterSelected.clone()
 
-        if( monsterSelectedClone is Monster)
-        {
+        if (monsterSelectedClone is Monster) {
             //we search if there is already a monster of this kind and we adapt the name by add 1 to it "gnoll1","gnoll2"
-            while(monsterKilled.contains(monsterSelectedClone))monsterSelectedClone.number++
+            while (monsterKilled.contains(monsterSelectedClone)) monsterSelectedClone.number++
 
-            monsterKilled.add(0,monsterSelectedClone)//pushFront(monsterSelected)
+            monsterKilled.add(0, monsterSelectedClone)//pushFront(monsterSelected)
 
             //if the player win a level
-            if(levelStat.addXp(monsterSelectedClone.costXp)>=1)
-            {
-                vie+=(referenceInitCara.vie*ratioGainLifeWhenChangeLevel).toInt()
+            if (levelStat.addXp(monsterSelectedClone.costXp) >= 1) {
+                vie += (referenceInitCara.vie * ratioGainLifeWhenChangeLevel).toInt()
             }
         }
     }
 
-    fun loseMonsterXp(monsterSelected: IShowImage)
-    {
-        if (monsterSelected is Monster)
-        {
+    fun loseMonsterXp(monsterSelected: IShowImage) {
+        if (monsterSelected is Monster) {
             monsterKilled.remove(monsterSelected)
-            levelStat.addXp(monsterSelected.costXp*(-1))
+            levelStat.addXp(monsterSelected.costXp * (-1))
         }
     }
 
-    fun removeStuffCard(cardToRemove: IShowImage)
-    {
-        if (cardToRemove is StuffCard)
-        {
+    fun removeStuffCard(cardToRemove: IShowImage) {
+        if (cardToRemove is StuffCard) {
             equipment.remove(cardToRemove)
         }
     }
 
-    fun switchStuffCardIsUsed(cardToSwitch: IShowImage)
-    {
-        if (cardToSwitch is StuffCard)
-        {
-            cardToSwitch.apply { isUsed=!isUsed }
+    fun switchStuffCardIsUsed(cardToSwitch: IShowImage) {
+        if (cardToSwitch is StuffCard) {
+            cardToSwitch.apply { isUsed = !isUsed }
             //equipment[cardToSwitch.toKey()]?.apply { isUsed=!isUsed }
             //equipment[equipment.indexOf(cardToSwitch)].apply{isUsed=!isUsed}
         }
     }
 
-    fun giveStuffCard(persoReceiver:IShowImage)
-    {
+    fun giveStuffCard(persoReceiver: IShowImage) {
         //si on a toujours la carte a donner
-        if( persoReceiver is Personnage && cardToGiveToAnOtherPlayer!=null && equipment.contains(cardToGiveToAnOtherPlayer!!))
-        {
+        if (persoReceiver is Personnage && cardToGiveToAnOtherPlayer != null && equipment.contains(cardToGiveToAnOtherPlayer!!)) {
             //on supprime la carte que si l'ajout a bien pu se faire
-            if(persoReceiver.addStuffCard(cardToGiveToAnOtherPlayer!!))
+            if (persoReceiver.addStuffCard(cardToGiveToAnOtherPlayer!!))
                 removeStuffCard(cardToGiveToAnOtherPlayer!!)
         }
     }
+
     /********************************************/
 
-    fun addStuffCard(newCard: StuffCard):Boolean
-    {
+    fun addStuffCard(newCard: StuffCard): Boolean {
         //si la carte n'est pas presente on renvoit true et la carte est ajoutee
-        return if(!equipment.contains(newCard))
-        {
-            equipment.add(0,newCard)//.pushFront(newCard)
+        return if (!equipment.contains(newCard)) {
+            equipment.add(0, newCard)//.pushFront(newCard)
             true
-        }else
+        } else
             false
     }
 
     companion object {
-        val ratioGainLifeWhenChangeLevel=0.25f
+        val ratioGainLifeWhenChangeLevel = 0.25f
 
-        val containerRef= Container(
-                Personnage(15, 0, 36, R.drawable.regdardescriptioncard, "Regdar", Power.listPowerRegdar),
-                Personnage(10, 0, 20, R.drawable.liddadescriptioncard, "Lidda", Power.listPowerLidda),
-                Personnage(9, 11, 29, R.drawable.myaliedescriptioncard, "Myalië", Power.listPowerMyalie),
-                Personnage(11, 9, 25, R.drawable.jozandescriptioncard, "Jozan", Power.listPowerJozan))
     }
 }
 
-class Power (override var imgId:Int, var textExplanation:String, var availableLevel:Int): IShowImage
-{
+class Power (override var imgId:Int, var textExplanation:String, var availableLevel:Int): IShowImage {
 
 
     companion object {
-        val listPowerLidda= mutableListOf(
+        val listPowerLidda = listOf(
                 Power(R.drawable.esquive_power, "lidda peut effectuer un deplacement gratuit de 1 case apres avoir frappe", 2),
                 Power(R.drawable.serrure_oeil, "lidda peut regarder a travers la serrure des portes. Pour 1 d'action le mj doit devoiler les monstres" +
                         " presents derriere la porte sur laquelle se tient lidda (si les monstres ne sont pas deja presents le mj ne doit pas les devoiler)." +
@@ -151,9 +147,9 @@ class Power (override var imgId:Int, var textExplanation:String, var availableLe
                         "reussit son tour continue sinon elle subit les effets." +
                         "\n-prestement, lidda se deplace de 7 et le mj n'active pas les pieges qu'elle rencontre ni n'indique leur existence." +
                         "\n-normalement.", 5)
-                )
+        )
 
-        val listPowerMyalie=mutableListOf(
+        val listPowerMyalie = listOf(
                 Power(R.drawable.teleportation, "myalie peut se teleporter de 3 cases dans une direction, elle ne tient pas compte des obstacles (murs compris)" +
                         "du moment que la case d'arrivee est libre", 2),
                 Power(R.drawable.mana, "Si myalie inflige 3 points de degats ou plus elle recupere 1 pt de sort", 2),
@@ -164,15 +160,15 @@ class Power (override var imgId:Int, var textExplanation:String, var availableLe
                 Power(R.drawable.super_arc, "myalie peut tirer dans 3 directions differentes uniquement a l'arc", 5)
         )
 
-        val listPowerRegdar= mutableListOf(
+        val listPowerRegdar = listOf(
                 Power(R.drawable.afraid, "les ennemis au corps a corps avec regdar ne peuvent quitter leur case que sur etoile", 2),
                 Power(R.drawable.explosion, "avant de lancer les des pour un corps a corps, regdar peut diminuer son attaque de 1 de degat mais tous les monstres au corps a corps avec" +
                         "lui subiront cette attaque", 3),
                 Power(R.drawable.armor, "regdar possede maintenant 3 d'armure", 4),
                 Power(R.drawable.damage, "sur etoile regdar peut infliger le double de degat, ne marche pas avec les degats de zone", 5)
-                )
+        )
 
-        val listPowerJozan= mutableListOf(
+        val listPowerJozan = listOf(
                 Power(R.drawable.care, "lorsque jozan tue un monstre il se restaure 2 pts de mana (ne peut pas depasser sa reserve max)" +
                         "et les allies en contact avec lui (diagonales non comprises) restaurent 1 pv ou 1 mana.", 2),
 
@@ -188,6 +184,6 @@ class Power (override var imgId:Int, var textExplanation:String, var availableLe
                         "different tandis que jozan n'aura pas joue du tout.", 5),
                 Power(R.drawable.heap_of_skull, "le renvoi des morts-vivants inflige le nombre de cranes en degat contre la cible.\n(n'ignore pas l'armure mais " +
                         "ne pas oublier d'y ajouter le +2 grace au bonus d'attaque contre les morts-vivants)", 5)
-                )
+        )
     }
 }

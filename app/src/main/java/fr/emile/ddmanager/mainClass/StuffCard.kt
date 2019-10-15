@@ -1,22 +1,22 @@
 package fr.emile.ddmanager.mainClass
 
+import androidx.room.Embedded
+import fr.emile.ddmanager.Container
 import fr.emile.ddmanager.R
 
-class StuffCard(nom:String, val type:StuffType,imgId:Int):Entity(imgId,nom)
+enum class StuffType{
+    ARME,ARTEFACT,SORT,POTION,TRAP;
+}
+class StuffCard(nom:String, var type:StuffType, imgId:Int):Entity(imgId,nom)
 {
     var isUsed=false
+
     override fun toKey()=nom
 
-    /*public override fun clone(): StuffCard {
-        return super.clone() as StuffCard
-    }*/
-
-    enum class StuffType{
-        ARME,ARTEFACT, SORT,POTION,TRAP
-    }
+    constructor():this("card_unkown",StuffType.ARTEFACT,0)//only for Room
 
     companion object {
-        val CardReference=arrayOf(
+        val CardReference= Container(
 
                 //potion
                 StuffCard("potion_de_restauration_partielle",StuffType.POTION, R.drawable.potion_de_restauration_partielle),
