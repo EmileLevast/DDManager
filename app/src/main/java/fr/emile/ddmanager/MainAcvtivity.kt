@@ -132,5 +132,4 @@ class MainAcvtivity : AppCompatActivity() {
     {
         bdd?.gameDao()?.insertGames(game)
     }
-
 }

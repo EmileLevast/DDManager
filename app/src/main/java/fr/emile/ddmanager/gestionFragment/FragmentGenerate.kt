@@ -1,8 +1,6 @@
 package fr.emile.ddmanager.gestionFragment
 
 import android.app.AlertDialog
-import android.content.DialogInterface
-import fr.emile.ddmanager.IShowImage
 import fr.emile.ddmanager.MainAcvtivity
 import fr.emile.ddmanager.R
 import fr.emile.ddmanager.gestionFragment.customFragment.CustomFragment
