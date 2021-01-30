@@ -104,6 +104,7 @@ class StuffCard(nom:String, var type:StuffType, imgId:Int):Entity(imgId,nom)
 
                 //artefact
                 StuffCard("amulette_de_yondalla",StuffType.ARTEFACT, R.drawable.amulette_de_yondalla),
+                StuffCard("fortune_de_yondalla",StuffType.ARTEFACT, R.drawable.fortune_de_yondalla),
                 StuffCard("amulette_olidammara",StuffType.ARTEFACT, R.drawable.amulette_olidammara),
                 StuffCard("anneau_des_ombres",StuffType.ARTEFACT, R.drawable.anneau_des_ombres),
                 StuffCard("bouclier_du_chaos",StuffType.ARTEFACT, R.drawable.bouclier_du_chaos),
